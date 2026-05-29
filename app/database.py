@@ -51,7 +51,9 @@ import os
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-# Fix old postgres:// issue
+if not DATABASE_URL:
+    raise Exception("DATABASE_URL environment variable not set")
+
 if DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace(
         "postgres://",
@@ -59,9 +61,7 @@ if DATABASE_URL.startswith("postgres://"):
         1
     )
 
-engine = create_engine(
-    DATABASE_URL
-)
+engine = create_engine(DATABASE_URL)
 
 SessionLocal = sessionmaker(
     autocommit=False,
@@ -70,3 +70,10 @@ SessionLocal = sessionmaker(
 )
 
 Base = declarative_base()
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
