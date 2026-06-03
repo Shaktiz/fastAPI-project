@@ -35,6 +35,10 @@ class UserCreate(BaseModel):
     phone_number: Optional[int]= None
     address:str
 
+class UserUpdate(BaseModel):
+    email: str
+    phone_number: str
+    address: str
 
 class UserOut(BaseModel):
     id: int
