@@ -39,3 +39,33 @@ def get_user_by_id(id:int,db:Session=Depends(get_db)): # type: ignore
                             detail=f'User with id:{id} was not found')   
     return user
 
+@router.put("/{id}",response_model=schemas.UserOut)
+def update_post(id:int, updated_user:schemas.UserOut,db:Session=Depends(get_db),current_user:int=Depends(oauth2.get_current_user)): # type: ignore
+    user_query=db.query(models.Users).filter(models.Users.id==id)
+    user=user_query.first()
+    if user==None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"User with id:{id} does not exist")
+    if user.owner_id !=current_user.id: #type: ignore
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail=f"not authorize") 
+    # post_query.update({'title':'This is updated title','content':'new updated content'}, synchronize_session=False)
+    user_query.update(updated_user.dict(), synchronize_session=False) # type: ignore
+    db.commit()
+    return user_query.first()
+
+@router.delete("/{id}")
+def delete_users(id:int,db:Session=Depends(get_db),current_user:int =Depends(oauth2.get_current_user)): # type: ignore
+    user_query=db.query(models.Users).filter(models.Users.id==id)
+    user=user_query.first()
+    
+    if user == None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"User with id:{id} does not exist")
+        
+    if user.owner_id !=current_user.id: #type: ignore
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail=f"not autorize")
+    user_query.delete(synchronize_session=False)
+    db.commit()
+    return {"message":"deleting Successful!"}
