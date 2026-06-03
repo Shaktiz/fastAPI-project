@@ -46,7 +46,7 @@ def update_post(id:int, updated_user:schemas.UserOut,db:Session=Depends(get_db),
     if user==None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"User with id:{id} does not exist")
-    if user.owner_id !=current_user.id: #type: ignore
+    if user.id !=current_user.id: #type: ignore
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
                             detail=f"not authorize") 
     # post_query.update({'title':'This is updated title','content':'new updated content'}, synchronize_session=False)
@@ -63,7 +63,7 @@ def delete_users(id:int,db:Session=Depends(get_db),current_user:int =Depends(oau
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"User with id:{id} does not exist")
         
-    if user.owner_id !=current_user.id: #type: ignore
+    if user.id !=current_user.id: #type: ignore
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
                             detail=f"not autorize")
     user_query.delete(synchronize_session=False)
