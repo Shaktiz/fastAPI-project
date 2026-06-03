@@ -381,7 +381,7 @@ function Users() {
               />
             </div>
 
-            <div className="mb-6">
+            <div className="mb-3">
               <label className="form-label">Address</label>
 
               <input
