@@ -15,7 +15,7 @@ function Posts() {
   const loadPosts = async () => {
     try {
       const res = await axios.get(
-        "https://fastapi-project-ap5t.onrender.com/posts/",
+        "https://fastapi-project-1-j38l.onrender.com/posts/",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -42,7 +42,7 @@ function Posts() {
 
     try {
       await axios.post(
-        "https://fastapi-project-ap5t.onrender.com/posts/",
+        "https://fastapi-project-1-j38l.onrender.com/posts/",
         {
           title,
           content: "React Post",
@@ -75,7 +75,7 @@ function Posts() {
 
     try {
       await axios.delete(
-        `https://fastapi-project-ap5t.onrender.com/posts/${post.Post.id}`,
+        `https://fastapi-project-1-j38l.onrender.com/posts/${post.Post.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -109,7 +109,7 @@ function Posts() {
 
     try {
       await axios.put(
-        `https://fastapi-project-ap5t.onrender.com/posts/${post.Post.id}`,
+        `https://fastapi-project-1-j38l.onrender.com/posts/${post.Post.id}`,
         {
           title: newTitle,
           content: "Updated Content",

@@ -17,7 +17,7 @@ function Register() {
       setLoading(true);
 
       const res = await axios.post(
-        "https://fastapi-project-ap5t.onrender.com/users/",
+        "https://fastapi-project-1-j38l.onrender.com/users/",
         {
           email,
           password,

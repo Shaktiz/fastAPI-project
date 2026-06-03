@@ -105,7 +105,7 @@ function Users() {
   const loadUsers = async () => {
     try {
       const res = await axios.get(
-        "https://fastapi-project-ap5t.onrender.com/users/",
+        "https://fastapi-project-1-j38l.onrender.com/users/",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -132,7 +132,7 @@ function Users() {
 
     try {
       await axios.delete(
-        `https://fastapi-project-ap5t.onrender.com/users/${id}`,
+        `https://fastapi-project-1-j38l.onrender.com/users/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
