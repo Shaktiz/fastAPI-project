@@ -22,6 +22,8 @@
 
 // export default Navbar;
 
+
+
 import { useState } from "react";
 
 function Navbar({ search, setSearch }) {
@@ -36,6 +38,7 @@ function Navbar({ search, setSearch }) {
 
   return (
     <nav className="navbar navbar-dark bg-dark px-3">
+      
       <span className="navbar-brand">
         FastAPI Dashboard
       </span>
