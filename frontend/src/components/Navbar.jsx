@@ -24,28 +24,104 @@
 
 
 
-import { useState } from "react";
+// import { useState } from "react";
 
-function Navbar({ search, setSearch }) {
+// function Navbar({ search, setSearch }) {
+//   const [showSearch, setShowSearch] =
+//     useState(false);
+
+//   const logout = () => {
+//     localStorage.removeItem("token");
+//     localStorage.removeItem("user_id");
+//     window.location.href = "/";
+//   };
+
+//   return (
+//     <nav className="navbar navbar-dark bg-dark px-3">
+      
+//       <span className="navbar-brand">
+//         FastAPI Dashboard
+//       </span>
+
+//       <div className="d-flex align-items-center gap-2">
+
+//         {/* Search Toggle Button */}
+//         <button
+//           className="btn btn-outline-light"
+//           onClick={() =>
+//             setShowSearch(!showSearch)
+//           }
+//         >
+//           🔍
+//         </button>
+
+//         {/* Search Box */}
+//         {showSearch && (
+//           <input
+//             type="text"
+//             className="form-control"
+//             placeholder="Search Posts..."
+//             value={search}
+//             onChange={(e) =>
+//               setSearch(e.target.value)
+//             }
+//             style={{ width: "250px" }}
+//           />
+//         )}
+
+//         {/* Logout Button */}
+//         <button
+//           className="btn btn-danger"
+//           onClick={logout}
+//         >
+//           Logout
+//         </button>
+
+//       </div>
+//     </nav>
+//   );
+// }
+
+// export default Navbar;
+
+
+import { useState, useEffect } from "react";
+
+function Navbar({
+  search,
+  setSearch,
+  darkMode,
+  setDarkMode,
+}) {
   const [showSearch, setShowSearch] =
     useState(false);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark-mode");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.body.classList.remove("dark-mode");
+      localStorage.setItem("theme", "light");
+    }
+  }, [darkMode]);
 
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user_id");
+
     window.location.href = "/";
   };
 
   return (
-    <nav className="navbar navbar-dark bg-dark px-3">
-      
-      <span className="navbar-brand">
-        FastAPI Dashboard
+    <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow-lg px-4">
+
+      <span className="navbar-brand fw-bold fs-3">
+        🚀 FastAPI Dashboard
       </span>
 
-      <div className="d-flex align-items-center gap-2">
+      <div className="ms-auto d-flex align-items-center gap-2">
 
-        {/* Search Toggle Button */}
         <button
           className="btn btn-outline-light"
           onClick={() =>
@@ -55,12 +131,11 @@ function Navbar({ search, setSearch }) {
           🔍
         </button>
 
-        {/* Search Box */}
         {showSearch && (
           <input
             type="text"
             className="form-control"
-            placeholder="Search Posts..."
+            placeholder="Search posts..."
             value={search}
             onChange={(e) =>
               setSearch(e.target.value)
@@ -69,7 +144,17 @@ function Navbar({ search, setSearch }) {
           />
         )}
 
-        {/* Logout Button */}
+        <button
+          className="btn btn-warning"
+          onClick={() =>
+            setDarkMode(!darkMode)
+          }
+        >
+          {darkMode
+            ? "☀️ Light"
+            : "🌙 Dark"}
+        </button>
+
         <button
           className="btn btn-danger"
           onClick={logout}

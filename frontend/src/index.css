@@ -1,4 +1,4 @@
-body {
+/* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -10,4 +10,348 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}*/ 
+/* =====================
+   GLOBAL
+===================== */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f5f7fb;
+  color: #212529;
+  transition: all 0.3s ease;
+  font-family: "Segoe UI", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* =====================
+   NAVBAR
+===================== */
+
+.navbar {
+  border-radius: 0 0 15px 15px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-brand {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+/* =====================
+   CARDS
+===================== */
+
+.card {
+  border: none;
+  border-radius: 18px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* =====================
+   TABLES
+===================== */
+
+.table {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table th {
+  font-weight: 600;
+}
+
+/* =====================
+   FORMS
+===================== */
+
+.form-control,
+textarea {
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus,
+textarea:focus {
+  box-shadow: 0 0 8px rgba(13, 110, 253, 0.3);
+}
+
+/* =====================
+   BUTTONS
+===================== */
+
+.btn {
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+/* =====================
+   BADGES
+===================== */
+
+.badge {
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+/* =====================
+   POSTS
+===================== */
+
+.post-card {
+  border-radius: 20px;
+}
+
+.post-content {
+  line-height: 1.7;
+}
+
+.vote-count {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* =====================
+   SEARCH BAR
+===================== */
+
+.search-box {
+  min-width: 250px;
+  border-radius: 30px;
+}
+
+/* =====================
+   DARK MODE
+===================== */
+
+.dark-mode {
+  background-color: #121212 !important;
+  color: #ffffff !important;
+}
+
+/* Entire Page */
+.dark-mode body,
+body.dark-mode {
+  background-color: #121212 !important;
+  color: white !important;
+}
+
+/* Navbar */
+.dark-mode .navbar {
+  background: #000 !important;
+  box-shadow: 0 3px 15px rgba(255, 255, 255, 0.05);
+}
+
+/* Cards */
+.dark-mode .card {
+  background-color: #1e1e1e !important;
+  color: white !important;
+  border: 1px solid #333 !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.dark-mode .card h1,
+.dark-mode .card h2,
+.dark-mode .card h3,
+.dark-mode .card h4,
+.dark-mode .card h5,
+.dark-mode .card h6,
+.dark-mode .card p,
+.dark-mode .card span,
+.dark-mode .card strong {
+  color: white !important;
+}
+
+/* Tables */
+.dark-mode .table {
+  color: white !important;
+}
+
+.dark-mode .table td,
+.dark-mode .table th {
+  color: white !important;
+  border-color: #444 !important;
+}
+
+.dark-mode .table-hover tbody tr:hover {
+  background-color: #2a2a2a !important;
+}
+
+/* Inputs */
+.dark-mode .form-control,
+.dark-mode textarea {
+  background-color: #2d2d2d !important;
+  color: white !important;
+  border: 1px solid #555 !important;
+}
+
+.dark-mode .form-control:focus,
+.dark-mode textarea:focus {
+  background-color: #2d2d2d !important;
+  color: white !important;
+  border-color: #0d6efd !important;
+}
+
+.dark-mode .form-control::placeholder,
+.dark-mode textarea::placeholder {
+  color: #aaaaaa !important;
+}
+
+/* Alerts */
+.dark-mode .alert-warning {
+  background-color: #2d2d2d !important;
+  color: white !important;
+  border: 1px solid #444 !important;
+}
+
+.dark-mode .alert-success {
+  background-color: #1d3a28 !important;
+  color: white !important;
+}
+
+.dark-mode .alert-danger {
+  background-color: #4b1d1d !important;
+  color: white !important;
+}
+
+/* Buttons */
+.dark-mode .btn-outline-danger {
+  color: white !important;
+  border-color: white !important;
+}
+
+.dark-mode .btn-outline-warning {
+  color: #ffc107 !important;
+}
+
+.dark-mode .btn-outline-light {
+  color: white !important;
+  border-color: white !important;
+}
+
+/* Users Section */
+.dark-mode .badge.bg-secondary {
+  background-color: #444 !important;
+}
+
+.dark-mode .badge.bg-success {
+  background-color: #198754 !important;
+}
+
+.dark-mode .badge.bg-primary {
+  background-color: #0d6efd !important;
+}
+
+/* Search */
+.dark-mode .search-box {
+  background-color: #2d2d2d !important;
+  color: white !important;
+}
+
+/* Horizontal Lines */
+.dark-mode hr {
+  border-color: #444 !important;
+}
+
+/* =====================
+   SCROLLBAR
+===================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* =====================
+   ANIMATIONS
+===================== */
+
+.fade-in {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* =====================
+   USERS TABLE DARK MODE FIX
+===================== */
+
+.dark-mode .table {
+  background-color: #1e1e1e !important;
+  color: white !important;
+}
+
+.dark-mode .table thead {
+  background-color: #2a2a2a !important;
+}
+
+.dark-mode .table thead th {
+  background-color: #2a2a2a !important;
+  color: white !important;
+  border-color: #444 !important;
+}
+
+.dark-mode .table tbody tr {
+  background-color: #1e1e1e !important;
+}
+
+.dark-mode .table tbody td {
+  background-color: #1e1e1e !important;
+  color: white !important;
+  border-color: #444 !important;
+}
+
+.dark-mode .table-hover tbody tr:hover {
+  background-color: #2d2d2d !important;
+}
+
+.dark-mode .table-bordered {
+  border-color: #444 !important;
+}
+
+.dark-mode .card .table {
+  background-color: transparent !important;
+}
+
+.dark-mode .card .table td,
+.dark-mode .card .table th {
+  color: white !important;
 }

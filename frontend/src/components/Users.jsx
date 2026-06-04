@@ -202,7 +202,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function Users() {
+function Users({darkMode}) {
   const [users, setUsers] = useState([]);
   const [editUser, setEditUser] = useState(null);
 
@@ -295,7 +295,9 @@ function Users() {
     <div className="container mt-3">
       <h2 className="mb-3">Users</h2>
 
-      <table className="table table-bordered table-hover">
+      {/* <table className="table table-bordered table-hover"> */}
+      <table className={`table table-bordered table-hover ${darkMode ? "table-dark" : ""}`}>
+
         <thead className="table-dark">
           <tr>
             <th>ID</th>
