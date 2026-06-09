@@ -37,19 +37,31 @@ class UserCreate(BaseModel):
 
 class UserUpdate(BaseModel):
     email: str
-    phone_number: str
     address: str
+    phone_number: str
+    bio: Optional[str] = None
+    profile_pic: Optional[str] = None
 
+# class UserOut(BaseModel):
+#     id: int
+#     email: EmailStr
+#     # created_at: datetime
+#     phone_number : Optional[int]
+#     address:str
+        
+#     class Config:
+#         from_attributes = True
 class UserOut(BaseModel):
     id: int
     email: EmailStr
-    # created_at: datetime
-    phone_number : Optional[int]
-    address:str
-        
+    address: Optional[str]
+    phone_number: Optional[str]
+    bio: Optional[str]
+    profile_pic: Optional[str]
+
     class Config:
         from_attributes = True
-        
+                
 class UserLogin(BaseModel):
     email:EmailStr
     password:str

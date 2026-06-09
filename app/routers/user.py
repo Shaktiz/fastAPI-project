@@ -7,6 +7,10 @@ from sqlalchemy.orm import Session
 
 router=APIRouter(prefix="/users",tags=['Users'])
 
+# @router.get("/profile")
+# def get_profile(current_user=Depends(oauth2.get_current_user),db: Session = Depends(get_db)):
+#     return current_user
+
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.UserOut)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
@@ -40,14 +44,17 @@ def get_user_by_id(id:int,db:Session=Depends(get_db)): # type: ignore
     return user
 
 @router.put("/{id}", response_model=schemas.UserOut)
-def update_user(id: int,updated_user: schemas.UserUpdate,db: Session = Depends(get_db),current_user=Depends(oauth2.get_current_user)):
+# def update_user(id: int,updated_user: schemas.UserUpdate,db: Session = Depends(get_db),current_user=Depends(oauth2.get_current_user)):
+@router.put("/{id}")
+def update_user(id: int,updated_user: schemas.UserUpdate,db: Session = Depends(get_db),current_user: models.Users = Depends(oauth2.get_current_user)):
     user_query = db.query(models.Users).filter(models.Users.id == id)
     user = user_query.first()
     if not user:
         raise HTTPException(status_code=404,detail="User not found")
-    if user.id != current_user.id:
+    if user.id != current_user.id: # type: ignore
         raise HTTPException(status_code=403,detail="Not authorized")
-    user_query.update(updated_user.dict(),synchronize_session=False) # type: ignore
+    # user_query.update(updated_user.dict(),synchronize_session=False) # type: ignore
+    user_query.update(updated_user.model_dump(),synchronize_session=False) # type: ignore
     db.commit()
     return user_query.first()
 
