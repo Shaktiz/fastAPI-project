@@ -391,7 +391,7 @@
 
 
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 
@@ -514,7 +514,8 @@ function Profile() {
               <img
                 src={
                   user.profile_image
-                    ? `${API_URL}${user.profile_image}`
+                    // ? `${API_URL}${user.profile_image}`
+                    ? `${API_URL}${user.profile_image?.startsWith("/") ? "" : "/"}${user.profile_image}`
                     : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
                 }
                 alt="Profile"

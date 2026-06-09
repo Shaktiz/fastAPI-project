@@ -569,7 +569,8 @@ function Users({ darkMode }) {
                 <img
                   src={
                     u.profile_image
-                      ? `${API_URL}${u.profile_image}`
+                      // ? `${API_URL}${u.profile_image}`
+                      ? `${API_URL}${u.profile_image?.startsWith("/") ? "" : "/"}${u.profile_image}`
                       : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
                   }
                   alt="Profile"
