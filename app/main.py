@@ -6,12 +6,13 @@ from .routers import user,posts,auth,vote
 from app.config import settings
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+import os
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-
-app.mount("/uploads",StaticFiles(directory="uploads"),name="uploads")
+os.makedirs("uploads", exist_ok=True)
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 origins=["http://localhost:3000"]
 
