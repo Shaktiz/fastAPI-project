@@ -293,10 +293,10 @@ function Profile() {
 
               <img
                 src={
-                  user.profile_image
-                    ? `${API_URL}${user.profile_image}`
+                    user.profile_image
+                    ? `https://fastapi-project-1-j38l.onrender.com${user.profile_image}`
                     : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                }
+                    }
                 alt="Profile"
                 width="180"
                 height="180"

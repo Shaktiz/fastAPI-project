@@ -92,18 +92,40 @@ def update_user(id: int,updated_user: schemas.UserUpdate,db: Session = Depends(g
     db.commit()
     return user_query.first()
 
-@router.delete("/{id}")
-def delete_users(id:int,db:Session=Depends(get_db),current_user:int =Depends(oauth2.get_current_user)): # type: ignore
-    user_query=db.query(models.Users).filter(models.Users.id==id)
-    user=user_query.first()
+# @router.delete("/{id}")
+# def delete_users(id:int,db:Session=Depends(get_db),current_user:int =Depends(oauth2.get_current_user)): # type: ignore
+#     user_query=db.query(models.Users).filter(models.Users.id==id)
+#     user=user_query.first()
     
-    if user == None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"User with id:{id} does not exist")
+#     if user == None:
+#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+#                             detail=f"User with id:{id} does not exist")
         
-    if user.id !=current_user.id: #type: ignore
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
-                            detail=f"not autorize")
+#     if user.id !=current_user.id: #type: ignore
+#         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+#                             detail=f"not autorize")
+#     user_query.delete(synchronize_session=False)
+#     db.commit()
+#     return {"message":"deleting Successful!"}
+
+
+@router.delete("/{id}")
+def delete_users(id: int,db: Session = Depends(get_db),current_user: models.Users = Depends(oauth2.get_current_user)):
+    if current_user is None:
+        raise HTTPException(status_code=401,detail="Not authenticated")
+    user_query = db.query(models.Users).filter(models.Users.id == id)
+
+    user = user_query.first()
+
+    if user is None:
+        raise HTTPException(
+            status_code=404,
+            detail=f"User with id:{id} does not exist"
+        )
+
+    if user.id != current_user.id: # type: ignore
+        raise HTTPException(status_code=403,detail="Not authorized")
     user_query.delete(synchronize_session=False)
     db.commit()
-    return {"message":"deleting Successful!"}
+
+    return {"message": "Deleting Successful!"}
