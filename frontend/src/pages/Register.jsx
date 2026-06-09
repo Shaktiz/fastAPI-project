@@ -146,7 +146,7 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    if (phoneNumber.length < 10) {
+    if (phoneNumber.length < 10 | phoneNumber.length > 10) {
       alert("Please enter a valid phone number");
       return;
     }
