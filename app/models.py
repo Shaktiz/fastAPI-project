@@ -27,6 +27,8 @@ class Users(Base):
     # created_at=Column(TIME(timezone=True),nullable=False,server_default=text("now()"))
     phone_number=Column(String)
     address=Column(String)
+    profile_image = Column(String, nullable=True)
+    bio = Column(String, nullable=True)
     
 class Vote(Base):
     __tablename__="votes"
