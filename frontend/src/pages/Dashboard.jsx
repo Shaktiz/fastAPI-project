@@ -335,6 +335,8 @@ function Dashboard() {
 
   const [currentUser, setCurrentUser] =
     useState(null);
+  const API_URL =
+    "https://fastapi-project-1-j38l.onrender.com";
 
   // Check Login
   useEffect(() => {
@@ -349,27 +351,28 @@ function Dashboard() {
     fetchCurrentUser();
   }, [navigate]);
 
-  // Fetch Logged-in User
   const fetchCurrentUser = async () => {
-    try {
-      const token = localStorage.getItem("token");
+  try {
+    const token = localStorage.getItem("token");
 
-      const response = await fetch(
-        "https://YOUR-BACKEND-URL/users/me",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+    const response = await fetch(
+      `${API_URL}/users/me`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-      const data = await response.json();
+    const data = await response.json();
 
-      setCurrentUser(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    console.log("Current User:", data);
+
+    setCurrentUser(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   // Dark Mode
   useEffect(() => {
@@ -411,14 +414,16 @@ function Dashboard() {
 
               <img
                 src={
-                  currentUser.profile_image ||
-                  "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                  currentUser.profile_image
+                    ? `${API_URL}${currentUser.profile_image}`
+                    : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
                 }
-                alt="profile"
+                alt="Profile"
                 width="80"
                 height="80"
                 className="rounded-circle me-3"
-              />
+                style={{ objectFit: "cover" }}
+                />
 
               <div>
                 <h5 className="mb-1">
