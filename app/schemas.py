@@ -40,7 +40,7 @@ class UserUpdate(BaseModel):
     address: str
     phone_number: str
     bio: Optional[str] = None
-    profile_pic: Optional[str] = None
+    profile_image: Optional[str] = None
 
 # class UserOut(BaseModel):
 #     id: int
@@ -57,7 +57,7 @@ class UserOut(BaseModel):
     address: Optional[str]
     phone_number: Optional[str]
     bio: Optional[str]
-    profile_pic: Optional[str]
+    profile_image: Optional[str]
 
     class Config:
         from_attributes = True
