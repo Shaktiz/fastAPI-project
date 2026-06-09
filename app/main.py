@@ -11,12 +11,13 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
+# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
 
-os.makedirs(UPLOAD_DIR, exist_ok=True)
-
-app.mount("/uploads",StaticFiles(directory=UPLOAD_DIR),name="uploads")
+# os.makedirs(UPLOAD_DIR, exist_ok=True)
+os.makedirs("uploads/profile_pics", exist_ok=True)
+# app.mount("/uploads",StaticFiles(directory=UPLOAD_DIR),name="uploads")
+app.mount("/uploads",StaticFiles(directory="uploads"),name="uploads")
 
 origins=["http://localhost:3000"]
 
