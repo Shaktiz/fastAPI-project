@@ -48,7 +48,7 @@ def update_my_profile(updated_user: schemas.UserUpdate,db: Session = Depends(get
 
 @router.post("/upload-profile-image")
 def upload_profile_image(file: UploadFile = File(...),db: Session = Depends(get_db),current_user: models.Users = Depends(oauth2.get_current_user)):
-    folder = "app/uploads/profile_pics"
+    folder = "uploads/profile_pics"
 
     os.makedirs(folder, exist_ok=True)
 
@@ -64,6 +64,7 @@ def upload_profile_image(file: UploadFile = File(...),db: Session = Depends(get_
     current_user.profile_image = image_url # type: ignore
 
     db.commit()
+    db.refresh(current_user)
 
     return {
         "message": "Image uploaded successfully",
