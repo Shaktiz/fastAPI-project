@@ -1,8 +1,8 @@
-"""add profile field
+"""add profile image and bio
 
-Revision ID: 8cd4108451dc
-Revises: e26aafb1d77c
-Create Date: 2026-06-09 14:09:43.601723
+Revision ID: 2a40901e8ecd
+Revises: 527781158982
+Create Date: 2026-06-09 14:25:39.959216
 
 """
 from typing import Sequence, Union
@@ -12,8 +12,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '8cd4108451dc'
-down_revision: Union[str, Sequence[str], None] = 'e26aafb1d77c'
+revision: str = '2a40901e8ecd'
+down_revision: Union[str, Sequence[str], None] = '527781158982'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
