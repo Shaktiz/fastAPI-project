@@ -4,6 +4,9 @@ from .. import models,schemas,oauth2
 from ..database import get_db
 from .. import utils
 from sqlalchemy.orm import Session
+from fastapi import UploadFile, File
+import os
+import shutil
 
 router=APIRouter(prefix="/users",tags=['Users'])
 
@@ -42,6 +45,29 @@ def update_my_profile(updated_user: schemas.UserUpdate,db: Session = Depends(get
     user_query.update(updated_user.model_dump(exclude_unset=True),synchronize_session=False) # type: ignore
     db.commit()
     return user_query.first()
+
+@router.post("/upload-profile-image")
+def upload_profile_image(file: UploadFile = File(...),db: Session = Depends(get_db),current_user: models.Users = Depends(oauth2.get_current_user)):
+    folder = "app/uploads/profile_pics"
+
+    os.makedirs(folder, exist_ok=True)
+
+    filename = f"user_{current_user.id}_{file.filename}"
+
+    filepath = os.path.join(folder, filename)
+
+    with open(filepath, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    image_url = f"/uploads/profile_pics/{filename}"
+
+    current_user.profile_image = image_url # type: ignore
+
+    db.commit()
+
+    return {
+        "message": "Image uploaded successfully",
+        "profile_image": image_url}
 
 @router.get("/{id}",response_model=schemas.UserOut)
 def get_user_by_id(id:int,db:Session=Depends(get_db)): # type: ignore

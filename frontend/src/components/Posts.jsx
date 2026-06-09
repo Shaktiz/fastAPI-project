@@ -1559,6 +1559,402 @@
 
 
 
+// import { useEffect, useState } from "react";
+// import axios from "axios";
+
+// function Posts({ search, darkMode }) {
+//   const [posts, setPosts] = useState([]);
+//   const [likedPosts, setLikedPosts] = useState([]);
+//   const [title, setTitle] = useState("");
+//   const [content, setContent] = useState("");
+
+//   const token = localStorage.getItem("token");
+//   const currentUserId = Number(localStorage.getItem("user_id"));
+
+//   const API_URL =
+//     "https://fastapi-project-1-j38l.onrender.com";
+
+//   const authConfig = {
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//   };
+
+//   // ==========================
+//   // LOAD POSTS
+//   // ==========================
+//   const loadPosts = async () => {
+//     try {
+//       const res = await axios.get(
+//         `${API_URL}/posts/`,
+//         authConfig
+//       );
+
+//       setPosts(res.data || []);
+//     } catch (err) {
+//       console.log(err);
+//       alert("Failed to load posts");
+//     }
+//   };
+
+//   useEffect(() => {
+//     loadPosts();
+//   }, []);
+
+//   // ==========================
+//   // CREATE POST
+//   // ==========================
+//   const createPost = async () => {
+//     if (!title.trim() || !content.trim()) {
+//       alert("Please enter title and content");
+//       return;
+//     }
+
+//     try {
+//       await axios.post(
+//         `${API_URL}/posts/`,
+//         {
+//           title,
+//           content,
+//           published: true,
+//         },
+//         authConfig
+//       );
+
+//       setTitle("");
+//       setContent("");
+
+//       loadPosts();
+//     } catch (err) {
+//       console.log(err);
+//       alert("Failed to create post");
+//     }
+//   };
+
+//   // ==========================
+//   // DELETE POST
+//   // ==========================
+//   const deletePost = async (post) => {
+//     if (post.Post.owner_id !== currentUserId) {
+//       alert("You can only delete your own posts");
+//       return;
+//     }
+
+//     if (!window.confirm("Delete this post?")) {
+//       return;
+//     }
+
+//     try {
+//       await axios.delete(
+//         `${API_URL}/posts/${post.Post.id}`,
+//         authConfig
+//       );
+
+//       loadPosts();
+//     } catch (err) {
+//       console.log(err);
+//       alert("Delete failed");
+//     }
+//   };
+
+//   // ==========================
+//   // UPDATE POST
+//   // ==========================
+//   const updatePost = async (post) => {
+//     if (post.Post.owner_id !== currentUserId) {
+//       alert("You can only update your own posts");
+//       return;
+//     }
+
+//     const newTitle = prompt(
+//       "Enter New Title",
+//       post.Post.title
+//     );
+
+//     if (newTitle === null) return;
+
+//     const newContent = prompt(
+//       "Enter New Content",
+//       post.Post.content
+//     );
+
+//     if (newContent === null) return;
+
+//     try {
+//       await axios.put(
+//         `${API_URL}/posts/${post.Post.id}`,
+//         {
+//           title: newTitle,
+//           content: newContent,
+//           published: true,
+//         },
+//         authConfig
+//       );
+
+//       loadPosts();
+//     } catch (err) {
+//       console.log(err);
+//       alert("Update failed");
+//     }
+//   };
+
+//   // ==========================
+//   // LIKE / UNLIKE
+//   // ==========================
+//   const toggleVote = async (postId) => {
+//     try {
+//       const alreadyLiked =
+//         likedPosts.includes(postId);
+
+//       if (alreadyLiked) {
+//         await axios.post(
+//           `${API_URL}/vote/`,
+//           {
+//             post_id: postId,
+//             dir: 0,
+//           },
+//           authConfig
+//         );
+
+//         setLikedPosts((prev) =>
+//           prev.filter((id) => id !== postId)
+//         );
+
+//         setPosts((prev) =>
+//           prev.map((p) =>
+//             p.Post.id === postId
+//               ? {
+//                   ...p,
+//                   votes: Math.max(
+//                     (p.votes || 0) - 1,
+//                     0
+//                   ),
+//                 }
+//               : p
+//           )
+//         );
+//       } else {
+//         await axios.post(
+//           `${API_URL}/vote/`,
+//           {
+//             post_id: postId,
+//             dir: 1,
+//           },
+//           authConfig
+//         );
+
+//         setLikedPosts((prev) => [
+//           ...prev,
+//           postId,
+//         ]);
+
+//         setPosts((prev) =>
+//           prev.map((p) =>
+//             p.Post.id === postId
+//               ? {
+//                   ...p,
+//                   votes: (p.votes || 0) + 1,
+//                 }
+//               : p
+//           )
+//         );
+//       }
+//     } catch (err) {
+//       console.log(err);
+
+//       if (
+//         err.response?.data?.detail ===
+//         "user already voted on this post"
+//       ) {
+//         setLikedPosts((prev) => [
+//           ...prev,
+//           postId,
+//         ]);
+//       } else {
+//         alert("Vote action failed");
+//       }
+//     }
+//   };
+
+//   // ==========================
+//   // SEARCH POSTS
+//   // ==========================
+//   const filteredPosts = posts.filter((p) => {
+//     if (!search?.trim()) return true;
+
+//     const query = search.toLowerCase().trim();
+
+//     return (
+//       p.Post.title
+//         ?.toLowerCase()
+//         .includes(query) ||
+//       p.Post.content
+//         ?.toLowerCase()
+//         .includes(query) ||
+//       String(p.Post.id) === query ||
+//       String(p.Post.owner_id) === query
+//     );
+//   });
+
+//   return (
+//     <div className="container-fluid">
+
+//       {/* Header */}
+//       <div className="d-flex justify-content-between align-items-center mb-4">
+//         <h2 className="fw-bold text-primary">
+//           📢 Community Posts
+//         </h2>
+
+//         <span className="badge bg-primary fs-6">
+//           Total Posts: {filteredPosts.length}
+//         </span>
+//       </div>
+
+//       {/* Create Post Card */}
+//       <div
+//         className={`card shadow-lg border-0 rounded-4 p-4 mb-4 ${
+//           darkMode ? "bg-dark text-light" : ""
+//         }`}
+//       >
+//         <h5 className="mb-3">
+//           ✍️ Create New Post
+//         </h5>
+
+//         <input
+//           className="form-control mb-3"
+//           placeholder="Post Title"
+//           value={title}
+//           onChange={(e) =>
+//             setTitle(e.target.value)
+//           }
+//         />
+
+//         <textarea
+//           className="form-control mb-3"
+//           rows="4"
+//           placeholder="Write something..."
+//           value={content}
+//           onChange={(e) =>
+//             setContent(e.target.value)
+//           }
+//         />
+
+//         <button
+//           className="btn btn-primary"
+//           onClick={createPost}
+//         >
+//           🚀 Publish Post
+//         </button>
+//       </div>
+
+//       {/* Posts */}
+//       {filteredPosts.length > 0 ? (
+//         filteredPosts.map((p) => {
+//           const liked =
+//             likedPosts.includes(
+//               p.Post.id
+//             );
+
+//           return (
+//             <div
+//               key={p.Post.id}
+//               className={`card shadow-lg border-0 rounded-4 p-4 mb-4 ${
+//                 darkMode
+//                   ? "bg-dark text-light"
+//                   : ""
+//               }`}
+//             >
+//               <div className="d-flex justify-content-between align-items-center mb-3">
+
+//                 <h4 className="fw-bold text-primary mb-0">
+//                   {p.Post.title}
+//                 </h4>
+
+//                 <span className="badge bg-dark">
+//                   ID #{p.Post.id}
+//                 </span>
+//               </div>
+
+//               <p>
+//                 <strong>Content:</strong>
+//                 <br />
+//                 {p.Post.content}
+//               </p>
+
+//               <p className="text-muted">
+//                 👤 Posted by User #
+//                 {p.Post.owner_id}
+//               </p>
+
+//               <div className="d-flex align-items-center mb-3">
+//                 <button
+//                   className={`btn ${
+//                     liked
+//                       ? "btn-danger"
+//                       : "btn-outline-danger"
+//                   }`}
+//                   onClick={() =>
+//                     toggleVote(
+//                       p.Post.id
+//                     )
+//                   }
+//                 >
+//                   {liked
+//                     ? "❤️ Liked"
+//                     : "🤍 Like"}
+//                 </button>
+
+//                 <span className="ms-3 badge bg-success fs-6">
+//                   👍 {p.votes || 0}
+//                 </span>
+//               </div>
+
+//               {p.Post.owner_id ===
+//               currentUserId ? (
+//                 <>
+//                   <button
+//                     className="btn btn-outline-warning me-2"
+//                     onClick={() =>
+//                       updatePost(p)
+//                     }
+//                   >
+//                     ✏️ Edit
+//                   </button>
+
+//                   <button
+//                     className="btn btn-outline-danger"
+//                     onClick={() =>
+//                       deletePost(p)
+//                     }
+//                   >
+//                     🗑 Delete
+//                   </button>
+//                 </>
+//               ) : (
+//                 <span className="badge bg-secondary">
+//                   Other User Post
+//                 </span>
+//               )}
+//             </div>
+//           );
+//         })
+//       ) : (
+//         <div className="card text-center p-5 shadow border-0">
+//           <h4>🔍 No Posts Found</h4>
+//           <p className="text-muted">
+//             Try another keyword.
+//           </p>
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
+
+// export default Posts;
+
+
+
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -1580,9 +1976,6 @@ function Posts({ search, darkMode }) {
     },
   };
 
-  // ==========================
-  // LOAD POSTS
-  // ==========================
   const loadPosts = async () => {
     try {
       const res = await axios.get(
@@ -1601,9 +1994,6 @@ function Posts({ search, darkMode }) {
     loadPosts();
   }, []);
 
-  // ==========================
-  // CREATE POST
-  // ==========================
   const createPost = async () => {
     if (!title.trim() || !content.trim()) {
       alert("Please enter title and content");
@@ -1631,9 +2021,6 @@ function Posts({ search, darkMode }) {
     }
   };
 
-  // ==========================
-  // DELETE POST
-  // ==========================
   const deletePost = async (post) => {
     if (post.Post.owner_id !== currentUserId) {
       alert("You can only delete your own posts");
@@ -1657,12 +2044,9 @@ function Posts({ search, darkMode }) {
     }
   };
 
-  // ==========================
-  // UPDATE POST
-  // ==========================
   const updatePost = async (post) => {
     if (post.Post.owner_id !== currentUserId) {
-      alert("You can only update your own posts");
+      alert("You can only edit your own posts");
       return;
     }
 
@@ -1698,108 +2082,52 @@ function Posts({ search, darkMode }) {
     }
   };
 
-  // ==========================
-  // LIKE / UNLIKE
-  // ==========================
   const toggleVote = async (postId) => {
     try {
       const alreadyLiked =
         likedPosts.includes(postId);
 
-      if (alreadyLiked) {
-        await axios.post(
-          `${API_URL}/vote/`,
-          {
-            post_id: postId,
-            dir: 0,
-          },
-          authConfig
-        );
+      await axios.post(
+        `${API_URL}/vote/`,
+        {
+          post_id: postId,
+          dir: alreadyLiked ? 0 : 1,
+        },
+        authConfig
+      );
 
+      if (alreadyLiked) {
         setLikedPosts((prev) =>
           prev.filter((id) => id !== postId)
         );
-
-        setPosts((prev) =>
-          prev.map((p) =>
-            p.Post.id === postId
-              ? {
-                  ...p,
-                  votes: Math.max(
-                    (p.votes || 0) - 1,
-                    0
-                  ),
-                }
-              : p
-          )
-        );
       } else {
-        await axios.post(
-          `${API_URL}/vote/`,
-          {
-            post_id: postId,
-            dir: 1,
-          },
-          authConfig
-        );
-
         setLikedPosts((prev) => [
           ...prev,
           postId,
         ]);
-
-        setPosts((prev) =>
-          prev.map((p) =>
-            p.Post.id === postId
-              ? {
-                  ...p,
-                  votes: (p.votes || 0) + 1,
-                }
-              : p
-          )
-        );
       }
+
+      loadPosts();
     } catch (err) {
       console.log(err);
-
-      if (
-        err.response?.data?.detail ===
-        "user already voted on this post"
-      ) {
-        setLikedPosts((prev) => [
-          ...prev,
-          postId,
-        ]);
-      } else {
-        alert("Vote action failed");
-      }
+      alert("Vote action failed");
     }
   };
 
-  // ==========================
-  // SEARCH POSTS
-  // ==========================
   const filteredPosts = posts.filter((p) => {
     if (!search?.trim()) return true;
 
-    const query = search.toLowerCase().trim();
+    const query = search.toLowerCase();
 
     return (
-      p.Post.title
-        ?.toLowerCase()
-        .includes(query) ||
-      p.Post.content
-        ?.toLowerCase()
-        .includes(query) ||
-      String(p.Post.id) === query ||
-      String(p.Post.owner_id) === query
+      p.Post.title?.toLowerCase().includes(query) ||
+      p.Post.content?.toLowerCase().includes(query)
     );
   });
 
   return (
     <div className="container-fluid">
 
-      {/* Header */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2 className="fw-bold text-primary">
           📢 Community Posts
@@ -1810,18 +2138,17 @@ function Posts({ search, darkMode }) {
         </span>
       </div>
 
-      {/* Create Post Card */}
+      {/* Create Post */}
+
       <div
         className={`card shadow-lg border-0 rounded-4 p-4 mb-4 ${
           darkMode ? "bg-dark text-light" : ""
         }`}
       >
-        <h5 className="mb-3">
-          ✍️ Create New Post
-        </h5>
+        <h5>✍️ Create New Post</h5>
 
         <input
-          className="form-control mb-3"
+          className="form-control my-2"
           placeholder="Post Title"
           value={title}
           onChange={(e) =>
@@ -1830,7 +2157,7 @@ function Posts({ search, darkMode }) {
         />
 
         <textarea
-          className="form-control mb-3"
+          className="form-control my-2"
           rows="4"
           placeholder="Write something..."
           value={content}
@@ -1840,110 +2167,123 @@ function Posts({ search, darkMode }) {
         />
 
         <button
-          className="btn btn-primary"
+          className="btn btn-primary mt-2"
           onClick={createPost}
         >
           🚀 Publish Post
         </button>
       </div>
 
-      {/* Posts */}
-      {filteredPosts.length > 0 ? (
-        filteredPosts.map((p) => {
-          const liked =
-            likedPosts.includes(
-              p.Post.id
-            );
+      {/* Posts List */}
 
-          return (
-            <div
-              key={p.Post.id}
-              className={`card shadow-lg border-0 rounded-4 p-4 mb-4 ${
-                darkMode
-                  ? "bg-dark text-light"
-                  : ""
-              }`}
-            >
-              <div className="d-flex justify-content-between align-items-center mb-3">
+      {filteredPosts.map((p) => {
+        const liked = likedPosts.includes(
+          p.Post.id
+        );
 
-                <h4 className="fw-bold text-primary mb-0">
-                  {p.Post.title}
-                </h4>
+        return (
+          <div
+            key={p.Post.id}
+            className={`card shadow-lg border-0 rounded-4 p-4 mb-4 ${
+              darkMode
+                ? "bg-dark text-light"
+                : ""
+            }`}
+          >
+            <div className="d-flex justify-content-between align-items-center">
 
-                <span className="badge bg-dark">
-                  ID #{p.Post.id}
-                </span>
+              <h4 className="text-primary">
+                {p.Post.title}
+              </h4>
+
+              <span className="badge bg-secondary">
+                #{p.Post.id}
+              </span>
+
+            </div>
+
+            <hr />
+
+            <p>{p.Post.content}</p>
+
+            <div className="d-flex align-items-center mb-3">
+
+              <img
+                src={
+                  p.owner?.profile_image ||
+                  "https://via.placeholder.com/40"
+                }
+                alt="profile"
+                width="40"
+                height="40"
+                className="rounded-circle me-2"
+              />
+
+              <div>
+                <strong>
+                  {p.owner?.email ||
+                    `User #${p.Post.owner_id}`}
+                </strong>
               </div>
 
-              <p>
-                <strong>Content:</strong>
-                <br />
-                {p.Post.content}
-              </p>
+            </div>
 
-              <p className="text-muted">
-                👤 Posted by User #
-                {p.Post.owner_id}
-              </p>
+            <div className="mb-3">
 
-              <div className="d-flex align-items-center mb-3">
+              <button
+                className={`btn ${
+                  liked
+                    ? "btn-danger"
+                    : "btn-outline-danger"
+                }`}
+                onClick={() =>
+                  toggleVote(p.Post.id)
+                }
+              >
+                {liked
+                  ? "❤️ Liked"
+                  : "🤍 Like"}
+              </button>
+
+              <span className="badge bg-success ms-3">
+                👍 {p.votes || 0}
+              </span>
+
+            </div>
+
+            {p.Post.owner_id ===
+            currentUserId ? (
+              <>
                 <button
-                  className={`btn ${
-                    liked
-                      ? "btn-danger"
-                      : "btn-outline-danger"
-                  }`}
+                  className="btn btn-warning me-2"
                   onClick={() =>
-                    toggleVote(
-                      p.Post.id
-                    )
+                    updatePost(p)
                   }
                 >
-                  {liked
-                    ? "❤️ Liked"
-                    : "🤍 Like"}
+                  ✏️ Edit
                 </button>
 
-                <span className="ms-3 badge bg-success fs-6">
-                  👍 {p.votes || 0}
-                </span>
-              </div>
+                <button
+                  className="btn btn-danger"
+                  onClick={() =>
+                    deletePost(p)
+                  }
+                >
+                  🗑 Delete
+                </button>
+              </>
+            ) : (
+              <span className="badge bg-info">
+                Other User Post
+              </span>
+            )}
+          </div>
+        );
+      })}
 
-              {p.Post.owner_id ===
-              currentUserId ? (
-                <>
-                  <button
-                    className="btn btn-outline-warning me-2"
-                    onClick={() =>
-                      updatePost(p)
-                    }
-                  >
-                    ✏️ Edit
-                  </button>
-
-                  <button
-                    className="btn btn-outline-danger"
-                    onClick={() =>
-                      deletePost(p)
-                    }
-                  >
-                    🗑 Delete
-                  </button>
-                </>
-              ) : (
-                <span className="badge bg-secondary">
-                  Other User Post
-                </span>
-              )}
-            </div>
-          );
-        })
-      ) : (
-        <div className="card text-center p-5 shadow border-0">
+      {filteredPosts.length === 0 && (
+        <div className="card p-5 text-center">
           <h4>🔍 No Posts Found</h4>
-          <p className="text-muted">
-            Try another keyword.
-          </p>
         </div>
       )}
     </div>

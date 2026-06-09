@@ -24,7 +24,7 @@ import { useState } from "react";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
-
+import Profile from "./pages/Profile";
 function App() {
   const [search, setSearch] = useState("");
 
@@ -50,6 +50,7 @@ function App() {
             />
           }
         />
+        <Route path="/profile" element={<Profile />}/>
       </Routes>
     </BrowserRouter>
   );

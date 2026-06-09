@@ -230,6 +230,93 @@
 
 
 
+// import { useState, useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
+
+// import Navbar from "../components/Navbar";
+// import Posts from "../components/Posts";
+// import Users from "../components/Users";
+
+// function Dashboard() {
+//   const navigate = useNavigate();
+
+//   const [search, setSearch] = useState("");
+
+//   const [darkMode, setDarkMode] = useState(
+//     localStorage.getItem("darkMode") === "true"
+//   );
+
+//   // Check Login
+//   useEffect(() => {
+//     const token = localStorage.getItem("token");
+
+//     if (!token) {
+//       alert("Please login first");
+//       navigate("/");
+//     }
+//   }, [navigate]);
+
+//   // Dark Mode Toggle
+//   useEffect(() => {
+//     localStorage.setItem("darkMode", darkMode);
+
+//     if (darkMode) {
+//       document.body.classList.add("dark-mode");
+//       document.body.classList.remove("light-mode");
+//     } else {
+//       document.body.classList.remove("dark-mode");
+//       document.body.classList.add("light-mode");
+//     }
+//   }, [darkMode]);
+
+//   return (
+//     <>
+//       <Navbar
+//         search={search}
+//         setSearch={setSearch}
+//         darkMode={darkMode}
+//         setDarkMode={setDarkMode}
+//       />
+
+//       <div className="container-fluid mt-4">
+//         <div className="row">
+
+//           {/* POSTS SECTION */}
+//           <div className="col-lg-8 mb-4">
+//             <Posts
+//               search={search}
+//               darkMode={darkMode}
+//             />
+//           </div>
+
+//           {/* USERS SECTION */}
+//           <div className="col-lg-4">
+//             <div
+//               className={`card shadow-lg border-0 ${
+//                 darkMode
+//                   ? "bg-dark text-light"
+//                   : "bg-white"
+//               }`}
+//             >
+//               <div className="card-header fw-bold fs-5">
+//                 👥 Users
+//               </div>
+
+//               <div className="card-body">
+//                 <Users />
+//               </div>
+//             </div>
+//           </div>
+
+//         </div>
+//       </div>
+//     </>
+//   );
+// }
+
+// export default Dashboard;
+
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -246,6 +333,9 @@ function Dashboard() {
     localStorage.getItem("darkMode") === "true"
   );
 
+  const [currentUser, setCurrentUser] =
+    useState(null);
+
   // Check Login
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -253,19 +343,53 @@ function Dashboard() {
     if (!token) {
       alert("Please login first");
       navigate("/");
+      return;
     }
+
+    fetchCurrentUser();
   }, [navigate]);
 
-  // Dark Mode Toggle
+  // Fetch Logged-in User
+  const fetchCurrentUser = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(
+        "https://YOUR-BACKEND-URL/users/me",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      setCurrentUser(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Dark Mode
   useEffect(() => {
-    localStorage.setItem("darkMode", darkMode);
+    localStorage.setItem(
+      "darkMode",
+      darkMode
+    );
 
     if (darkMode) {
       document.body.classList.add("dark-mode");
-      document.body.classList.remove("light-mode");
+      document.body.classList.remove(
+        "light-mode"
+      );
     } else {
-      document.body.classList.remove("dark-mode");
-      document.body.classList.add("light-mode");
+      document.body.classList.remove(
+        "dark-mode"
+      );
+      document.body.classList.add(
+        "light-mode"
+      );
     }
   }, [darkMode]);
 
@@ -279,9 +403,41 @@ function Dashboard() {
       />
 
       <div className="container-fluid mt-4">
+
+        {/* Current User Card */}
+        {currentUser && (
+          <div className="card shadow border-0 mb-4">
+            <div className="card-body d-flex align-items-center">
+
+              <img
+                src={
+                  currentUser.profile_image ||
+                  "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                }
+                alt="profile"
+                width="80"
+                height="80"
+                className="rounded-circle me-3"
+              />
+
+              <div>
+                <h5 className="mb-1">
+                  {currentUser.email}
+                </h5>
+
+                <p className="text-muted mb-0">
+                  {currentUser.bio ||
+                    "No bio added"}
+                </p>
+              </div>
+
+            </div>
+          </div>
+        )}
+
         <div className="row">
 
-          {/* POSTS SECTION */}
+          {/* POSTS */}
           <div className="col-lg-8 mb-4">
             <Posts
               search={search}
@@ -289,8 +445,9 @@ function Dashboard() {
             />
           </div>
 
-          {/* USERS SECTION */}
+          {/* USERS */}
           <div className="col-lg-4">
+
             <div
               className={`card shadow-lg border-0 ${
                 darkMode
@@ -298,6 +455,7 @@ function Dashboard() {
                   : "bg-white"
               }`}
             >
+
               <div className="card-header fw-bold fs-5">
                 👥 Users
               </div>
@@ -305,10 +463,13 @@ function Dashboard() {
               <div className="card-body">
                 <Users />
               </div>
+
             </div>
+
           </div>
 
         </div>
+
       </div>
     </>
   );
