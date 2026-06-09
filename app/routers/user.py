@@ -7,10 +7,6 @@ from sqlalchemy.orm import Session
 
 router=APIRouter(prefix="/users",tags=['Users'])
 
-# @router.get("/profile")
-# def get_profile(current_user=Depends(oauth2.get_current_user),db: Session = Depends(get_db)):
-#     return current_user
-
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.UserOut)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
@@ -35,6 +31,18 @@ def get_all_users(db:Session=Depends(get_db),current_user:int =Depends(oauth2.ge
     users=db.query(models.Users).all()
     return users
 
+
+@router.get("/me", response_model=schemas.UserOut)
+def get_my_profile(current_user: models.Users = Depends(oauth2.get_current_user)):
+    return current_user
+
+@router.put("/me", response_model=schemas.UserOut)
+def update_my_profile(updated_user: schemas.UserUpdate,db: Session = Depends(get_db),current_user: models.Users = Depends(oauth2.get_current_user)):
+    user_query = db.query(models.Users).filter(models.Users.id == current_user.id)
+    user_query.update(updated_user.model_dump(exclude_unset=True),synchronize_session=False) # type: ignore
+    db.commit()
+    return user_query.first()
+
 @router.get("/{id}",response_model=schemas.UserOut)
 def get_user_by_id(id:int,db:Session=Depends(get_db)): # type: ignore
     user=db.query(models.Users).filter(models.Users.id == id).first()
@@ -45,7 +53,6 @@ def get_user_by_id(id:int,db:Session=Depends(get_db)): # type: ignore
 
 @router.put("/{id}", response_model=schemas.UserOut)
 # def update_user(id: int,updated_user: schemas.UserUpdate,db: Session = Depends(get_db),current_user=Depends(oauth2.get_current_user)):
-@router.put("/{id}")
 def update_user(id: int,updated_user: schemas.UserUpdate,db: Session = Depends(get_db),current_user: models.Users = Depends(oauth2.get_current_user)):
     user_query = db.query(models.Users).filter(models.Users.id == id)
     user = user_query.first()
