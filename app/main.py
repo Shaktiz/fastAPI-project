@@ -6,7 +6,7 @@ from .routers import user,posts,auth,vote
 from app.config import settings
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-import os
+# import os
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
@@ -15,7 +15,7 @@ app = FastAPI()
 # UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
 
 # os.makedirs(UPLOAD_DIR, exist_ok=True)
-os.makedirs("uploads/profile_pics", exist_ok=True)
+# os.makedirs("uploads/profile_pics", exist_ok=True)
 # app.mount("/uploads",StaticFiles(directory=UPLOAD_DIR),name="uploads")
 app.mount("/uploads",StaticFiles(directory="uploads"),name="uploads")
 

@@ -59,7 +59,7 @@ def upload_profile_image(file: UploadFile = File(...),db: Session = Depends(get_
     with open(filepath, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    image_url = f"/uploads/profile_pics/{filename}"
+    image_url = f"/uploads/{filename}"
 
     current_user.profile_image = image_url # type: ignore
 
