@@ -1956,6 +1956,7 @@
 
 
 import { useEffect, useState } from "react";
+import { useCallback, useMemo  } from "react";
 import axios from "axios";
 
 function Posts({ search, darkMode }) {
@@ -1970,13 +1971,21 @@ function Posts({ search, darkMode }) {
   const API_URL =
     "https://fastapi-project-1-j38l.onrender.com";
 
-  const authConfig = {
+  // const authConfig = {
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  // };
+  const authConfig = useMemo(
+  () => ({
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  };
-
-  const loadPosts = async () => {
+  }),
+  [token]
+);
+  // const loadPosts = async () => {
+  const loadPosts = useCallback(async () => {
     try {
       const res = await axios.get(
         `${API_URL}/posts/`,
@@ -1984,15 +1993,14 @@ function Posts({ search, darkMode }) {
       );
 
       setPosts(res.data || []);
-    } catch (err) {
+      } catch (err) {
       console.log(err);
-      alert("Failed to load posts");
-    }
-  };
+      alert("Failed to load posts");}
+    }, [authConfig]);
 
-  useEffect(() => {
-    loadPosts();
-  }, []);
+    useEffect(() => {
+      loadPosts();
+    }, [loadPosts]);
 
   const createPost = async () => {
     if (!title.trim() || !content.trim()) {
@@ -2206,27 +2214,40 @@ function Posts({ search, darkMode }) {
 
             <p>{p.Post.content}</p>
 
-            <div className="d-flex align-items-center mb-3">
+            {/* <div className="d-flex align-items-center mb-3">
+                <img
+                  src={
+                    user.profile_image
+                      ? `${API_URL}${user.profile_image}`
+                      : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                  }
+                  alt="Profile"
+                  width="40"
+                  height="40"
+                  className="rounded-circle me-2"
+                  style={{ objectFit: "cover" }}
+                />
 
-              <img
-                src={
-                  p.owner?.profile_image ||
-                  "https://via.placeholder.com/40"
-                }
-                alt="profile"
-                width="40"
-                height="40"
-                className="rounded-circle me-2"
-              />
+                <div>
+                  <strong>
+                    {p.owner?.email ||
+                      `User #${p.Post.owner_id}`}
+                  </strong>
+                </div>
+              </div> */}
+              <div className="d-flex align-items-center mb-3">
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                  alt="Profile"
+                  width="40"
+                  height="40"
+                  className="rounded-circle me-2"
+                />
 
-              <div>
-                <strong>
-                  {p.owner?.email ||
-                    `User #${p.Post.owner_id}`}
-                </strong>
+                <div>
+                  <strong>Posted by : User #{p.Post.owner_id}</strong>
+                </div>
               </div>
-
-            </div>
 
             <div className="mb-3">
 

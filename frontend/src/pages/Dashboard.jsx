@@ -427,8 +427,11 @@ function Dashboard() {
                 />
 
               <div>
+                <h6 className="text-muted mb-1">
+                  User ID: {currentUser.id}
+                </h6>
                 <h5 className="mb-1">
-                  {currentUser.email}
+                  Welcome! {currentUser.email}
                 </h5>
 
                 <p className="text-muted mb-0">
