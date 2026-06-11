@@ -1,5 +1,6 @@
 
-import { use, useEffect, useState } from "react";
+
+import { useEffect, useState,useCallback } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 
@@ -12,7 +13,7 @@ function Profile() {
     profile_image: "",
   });
 
-  const [selectedFile, setSelectedFile] = useState(null);
+  // const [selectedFile, setSelectedFile] = useState(null);
 
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("darkMode") === "true"
@@ -23,28 +24,44 @@ function Profile() {
   const API_URL =
     "https://fastapi-project-1-j38l.onrender.com";
 
+  // const fetchProfile = async () => {
+  //   try {
+  //     const res = await axios.get(
+  //       `${API_URL}/users/me`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+
+  //     console.log(res.data);
+
+  //     setUser(res.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+  const fetchProfile = useCallback(async () => {
+  try {
+        const res = await axios.get(
+          `${API_URL}/users/me`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setUser(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }, [token, API_URL]);
+
   useEffect(() => {
     fetchProfile();
-  }, []);
-
-  const fetchProfile = async () => {
-    try {
-      const res = await axios.get(
-        `${API_URL}/users/me`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      console.log(res.data);
-
-      setUser(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    }, [fetchProfile]);
 
   const uploadProfileImage = async (file) => {
     try {
@@ -178,7 +195,7 @@ function Profile() {
 
                   if (!file) return;
 
-                  setSelectedFile(file);
+                  // setSelectedFile(file);
 
                   uploadProfileImage(file);
                 }}
