@@ -38,7 +38,7 @@ function Navbar({
         style={{ cursor: "pointer" }}
         onClick={() => navigate("/dashboard")}
       >
-        🚀 FastAPI Dashboard
+        🚀 Dashboard
       </span>
 
       <div className="ms-auto d-flex align-items-center gap-2">

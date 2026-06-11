@@ -256,7 +256,6 @@ function Posts({ search, darkMode }) {
 
               <div className="d-flex align-items-center mb-3">
                 <img
-                  // src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                   src={
                     p.profile_image
                       ? `${API_URL}${p.profile_image}`
