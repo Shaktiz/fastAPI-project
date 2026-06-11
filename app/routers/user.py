@@ -46,6 +46,13 @@ def update_my_profile(updated_user: schemas.UserUpdate,db: Session = Depends(get
     db.commit()
     return user_query.first()
 
+@router.delete("/me")
+def delete_current_user(db: Session = Depends(get_db),current_user: models.Users = Depends(oauth2.get_current_user)):
+    db.delete(current_user)
+    db.commit()
+    
+    return {"message": "Account deleted successfully"}
+
 @router.post("/upload-profile-image")
 def upload_profile_image(file: UploadFile = File(...),db: Session = Depends(get_db),current_user: models.Users = Depends(oauth2.get_current_user)):
     folder = "uploads/profile_pics"

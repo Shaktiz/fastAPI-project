@@ -493,7 +493,34 @@ function Profile() {
       alert("Update Failed");
     }
   };
+  const deleteAccount = async () => {
+  const confirmDelete = window.confirm(
+    "⚠️ Are you sure?\n\nThis will permanently delete your account and all your data."
+  );
 
+  if (!confirmDelete) return;
+
+  try {
+    await axios.delete(
+      `${API_URL}/users/me`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    alert("Account Deleted Successfully");
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("user_id");
+
+    window.location.href = "/";
+  } catch (err) {
+    console.log(err);
+    alert("Failed to delete account");
+  }
+};
   return (
     <>
       <Navbar
@@ -622,12 +649,29 @@ function Profile() {
               />
             </div>
 
-            <button
+            {/* <button
               className="btn btn-primary w-100"
               onClick={updateProfile}
             >
               Save Profile
-            </button>
+            </button> */}
+            <div className="d-flex gap-3 mt-4">
+
+              <button
+                className="btn btn-primary flex-fill"
+                onClick={updateProfile}
+              >
+                💾 Save Profile
+              </button>
+
+              <button
+                className="btn btn-danger flex-fill"
+                onClick={deleteAccount}
+              >
+                🗑 Delete Account
+              </button>
+
+            </div>
           </div>
         </div>
       </div>
