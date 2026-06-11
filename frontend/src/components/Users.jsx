@@ -1,5 +1,6 @@
 
-import { useEffect, useState } from "react";
+
+import { useState, useEffect, useCallback, useMemo } from "react";
 import axios from "axios";
 
 function Users({ darkMode }) {
@@ -10,26 +11,30 @@ function Users({ darkMode }) {
   const API_URL =
     "https://fastapi-project-1-j38l.onrender.com";
 
-  const loadUsers = async () => {
-    try {
-      const res = await axios.get(
-        `${API_URL}/users/`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+  const authConfig = useMemo(
+    () => ({
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+    [token]
+  );
+  const loadUsers = useCallback(async () => {
+  try {
+    const res = await axios.get(
+      `${API_URL}/users/`,
+      authConfig
       );
 
       setUsers(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
+      } catch (err) {
+      console.log(err);
+      }
+    }, [API_URL, authConfig]);
+    
+    useEffect(() => {
     loadUsers();
-  }, []);
+    }, [loadUsers]);
 
   return (
     <div className="container-fluid">
