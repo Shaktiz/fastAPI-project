@@ -2276,33 +2276,32 @@ function Posts({ search, darkMode }) {
               </span>
 
             </div>
-
             {p.Post.owner_id ===
-            currentUserId ? (
-              <>
-                <button
-                  className="btn btn-warning me-2"
-                  onClick={() =>
-                    updatePost(p)
-                  }
-                >
-                  ✏️ Edit
-                </button>
+              currentUserId ? (
+                <>
+                  <button
+                    className="btn btn-outline-warning me-2"
+                    onClick={() =>
+                      updatePost(p)
+                    }
+                  >
+                    ✏️ Edit
+                  </button>
 
-                <button
-                  className="btn btn-danger"
-                  onClick={() =>
-                    deletePost(p)
-                  }
-                >
-                  🗑 Delete
-                </button>
-              </>
-            ) : (
-              <span className="badge bg-info">
-                Other User Post
-              </span>
-            )}
+                  <button
+                    className="btn btn-outline-danger"
+                    onClick={() =>
+                      deletePost(p)
+                    }
+                  >
+                    🗑 Delete
+                  </button>
+                </>
+              ) : (
+                <span className="badge bg-secondary">
+                  Other User Post
+                </span>
+              )}
           </div>
         );
       })}
