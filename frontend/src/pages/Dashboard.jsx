@@ -202,7 +202,6 @@ const fetchCurrentUser = useCallback( async () => {
       try {
       const token = localStorage.getItem("token");
 
-
           const response = await fetch(
             `${API_URL}/users/me`,
             {
@@ -222,7 +221,6 @@ const fetchCurrentUser = useCallback( async () => {
       },
       [API_URL]
 
-
       );
 
       useEffect(() => { const token = localStorage.getItem("token");
@@ -236,7 +234,6 @@ const fetchCurrentUser = useCallback( async () => {
 
       fetchCurrentUser();
 
-
       }, [navigate, fetchCurrentUser]);
 
       useEffect(() => {
@@ -244,7 +241,6 @@ const fetchCurrentUser = useCallback( async () => {
       "darkMode",
       darkMode
       );
-
 
       if (darkMode) {
         document.body.classList.add(
@@ -256,7 +252,6 @@ const fetchCurrentUser = useCallback( async () => {
         );
       }
 
-
       }, [darkMode]);
 
       return (
@@ -266,7 +261,6 @@ const fetchCurrentUser = useCallback( async () => {
           darkMode={darkMode}
           setDarkMode={setDarkMode}
         />
-
 
         <div className="container-fluid py-4">
 

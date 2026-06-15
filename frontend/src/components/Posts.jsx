@@ -520,7 +520,8 @@ const authConfig = useMemo(
 
       });
 
-      return ( <div className="social-card">
+      return ( 
+      <div className="social-card">
 
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h2
