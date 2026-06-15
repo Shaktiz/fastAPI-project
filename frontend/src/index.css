@@ -9,7 +9,6 @@
 
 body {
   margin: 0;
-  background: #f5f7fb;
   color: #212529;
   transition: all 0.3s ease;
   font-family: "Segoe UI", sans-serif;
@@ -342,4 +341,462 @@ body.dark-mode {
 .dark-mode .card .table td,
 .dark-mode .card .table th {
   color: white !important;
+}
+
+
+
+/* =========================
+   CREATE POST CARD
+========================= */
+
+.create-post-card{
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.2);
+
+  border-radius: 25px;
+  padding: 30px;
+
+  box-shadow:
+  0 15px 35px rgba(0,0,0,.2);
+
+  transition: .4s;
+}
+
+.create-post-card:hover{
+  transform: translateY(-5px);
+}
+
+/* =========================
+   POST CARD
+========================= */
+
+.social-card{
+  background: rgba(255,255,255,0.15);
+
+  backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255,255,255,0.2);
+
+  border-radius: 25px;
+
+  padding: 25px;
+
+  color: white;
+
+  box-shadow:
+  0 15px 35px rgba(0,0,0,.25);
+
+  transition: all .3s ease;
+}
+
+.social-card:hover{
+  transform: translateY(-6px);
+
+  box-shadow:
+  0 25px 45px rgba(0,0,0,.35);
+}
+
+.social-card h4{
+  color: white !important;
+  font-weight: 700;
+}
+
+.social-card p{
+  color: rgba(255,255,255,.9);
+}
+
+.social-card hr{
+  border-color: rgba(255,255,255,.15);
+}
+
+/* =========================
+   USER SECTION
+========================= */
+
+.users-glass-card{
+  background: rgba(255,255,255,.12);
+
+  backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255,255,255,.2);
+
+  border-radius: 25px;
+
+  padding: 20px;
+
+  color: white;
+
+  box-shadow:
+  0 15px 35px rgba(0,0,0,.25);
+}
+
+.users-glass-card h5{
+  color: white;
+}
+
+/* =========================
+   USER TABLE
+========================= */
+
+.users-glass-card table{
+  color: white;
+}
+
+.users-glass-card td,
+.users-glass-card th{
+  background: transparent !important;
+  color: white !important;
+  border-color: rgba(255,255,255,.1);
+}
+
+/* =========================
+   PROFILE IMAGES
+========================= */
+
+.profile-avatar{
+  width: 55px;
+  height: 55px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+
+  border: 3px solid white;
+
+  box-shadow:
+  0 0 15px rgba(255,255,255,.4);
+}
+
+/* =========================
+   LIKE BUTTON
+========================= */
+
+.like-btn{
+  background: linear-gradient(
+    135deg,
+    #ff4d79,
+    #ff758c
+  );
+
+  border: none;
+
+  color: white;
+
+  border-radius: 30px;
+
+  padding: 8px 18px;
+
+  font-weight: 600;
+}
+
+.like-btn:hover{
+  transform: scale(1.05);
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+.create-post-card input,
+.create-post-card textarea{
+  background: rgba(255,255,255,.15);
+
+  border: none;
+
+  color: white;
+}
+
+.create-post-card input::placeholder,
+.create-post-card textarea::placeholder{
+  color: rgba(255,255,255,.7);
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#8b5cf6;
+  border-radius:20px;
+}
+
+
+.welcome-glass-card{
+  background: rgba(255,255,255,.12);
+
+  backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255,255,255,.2);
+
+  border-radius: 30px;
+
+  padding: 25px;
+
+  color: white;
+
+  box-shadow:
+  0 15px 35px rgba(0,0,0,.2);
+}
+
+.post-glass-card{
+  background: rgba(255,255,255,.12);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 25px;
+  padding: 25px;
+  color: white;
+  box-shadow: 0 15px 35px rgba(0,0,0,.25);
+  transition: .3s ease;
+}
+
+.post-glass-card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 20px 45px rgba(0,0,0,.35);
+}
+
+/* USERS CARD */
+
+.user-item-card{
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.15);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 15px;
+  transition: all .3s ease;
+}
+
+.user-item-card:hover{
+  transform: translateY(-3px);
+  background: rgba(255,255,255,.12);
+  box-shadow: 0 10px 25px rgba(0,0,0,.2);
+}
+
+.users-glass-card{
+  background: rgba(255,255,255,.12);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 25px;
+  padding: 25px;
+  color: white;
+  box-shadow: 0 15px 35px rgba(0,0,0,.25);
+}
+
+.profile-avatar{
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255,255,255,.4);
+  box-shadow: 0 0 15px rgba(255,255,255,.2);
+}
+/* ===========================
+   DASHBOARD HERO CARD
+=========================== */
+
+.welcome-glass-card{
+  background: rgba(255,255,255,.12);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 30px;
+  padding: 30px;
+  color: white;
+  box-shadow: 0 15px 40px rgba(0,0,0,.25);
+}
+
+.profile-avatar-lg{
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid rgba(255,255,255,.35);
+  box-shadow: 0 0 25px rgba(255,255,255,.3);
+}
+
+.welcome-title{
+  font-weight: 700;
+  color: white;
+}
+
+.welcome-email{
+  color: rgba(255,255,255,.95);
+}
+
+.welcome-bio{
+  color: rgba(255,255,255,.75);
+}
+
+/* ===========================
+   USERS PANEL
+=========================== */
+
+.users-panel{
+  background: rgba(255,255,255,.12);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 25px;
+  padding: 20px;
+  height: 100%;
+  box-shadow: 0 15px 40px rgba(0,0,0,.25);
+}
+
+.users-header{
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255,255,255,.15);
+}
+
+/* ===========================
+   GLASS NAVBAR
+=========================== */
+
+.glass-navbar{
+  position: sticky;
+  top: 0;
+  z-index: 999;
+
+  background: rgba(255,255,255,.08) !important;
+
+  backdrop-filter: blur(25px);
+
+  border-bottom: 1px solid rgba(255,255,255,.15);
+
+  padding: 15px 25px;
+
+  box-shadow:
+  0 8px 30px rgba(0,0,0,.15);
+}
+
+/* LOGO */
+
+.brand-logo{
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.brand-logo:hover{
+  transform: scale(1.05);
+}
+
+/* NAV ACTIONS */
+
+.navbar-actions{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* GLASS BUTTON */
+
+.nav-glass-btn{
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.15);
+
+  color: white;
+
+  padding: 10px 18px;
+
+  border-radius: 14px;
+
+  backdrop-filter: blur(15px);
+
+  transition: all .3s ease;
+}
+
+.nav-glass-btn:hover{
+  background: rgba(255,255,255,.2);
+
+  transform: translateY(-2px);
+
+  box-shadow:
+  0 10px 20px rgba(0,0,0,.15);
+}
+
+/* SEARCH */
+
+.glass-search{
+  width: 260px;
+
+  border: none;
+
+  outline: none;
+
+  color: white;
+
+  padding: 10px 15px;
+
+  border-radius: 14px;
+
+  background: rgba(255,255,255,.12);
+
+  backdrop-filter: blur(15px);
+}
+
+.glass-search::placeholder{
+  color: rgba(255,255,255,.7);
+}
+
+/* THEME BUTTON */
+
+.theme-btn{
+  font-size: 18px;
+  width: 48px;
+}
+
+/* LOGOUT */
+
+.logout-btn{
+  border: none;
+
+  color: white;
+
+  padding: 10px 20px;
+
+  border-radius: 14px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #ff4d79,
+    #ff758c
+  );
+
+  transition: .3s;
+}
+
+.logout-btn:hover{
+  transform: translateY(-2px);
+
+  box-shadow:
+  0 10px 20px rgba(255,77,121,.4);
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+  .navbar-actions{
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .glass-search{
+    width: 100%;
+  }
+
+  .brand-logo{
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+  }
 }

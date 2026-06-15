@@ -157,7 +157,8 @@ function Profile() {
 
       <div className="container mt-5">
         <div
-          className={`card shadow-lg border-0 ${
+          // className={`card shadow-lg border-0 ${
+            className={`users-glass-card ${
             darkMode ? "bg-dark text-light" : ""
           }`}
         >
@@ -274,12 +275,6 @@ function Profile() {
               />
             </div>
 
-            {/* <button
-              className="btn btn-primary w-100"
-              onClick={updateProfile}
-            >
-              Save Profile
-            </button> */}
             <div className="d-flex gap-3 mt-4">
 
               <button

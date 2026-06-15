@@ -1,0 +1,40 @@
+
+body,
+#root {
+  min-height: 100vh;
+
+  background: linear-gradient(
+    135deg,
+    #4f46e5,
+    #7c3aed,
+    #2563eb
+  );
+
+  background-size: 300% 300%;
+  animation: gradientMove 12s ease infinite;
+}
+.navbar {
+  background: rgba(255,255,255,.12) !important;
+
+  backdrop-filter: blur(20px);
+
+  border-bottom: 1px solid rgba(255,255,255,.15);
+}
+
+body.dark-mode {
+  background: linear-gradient(
+    135deg,
+    #0f172a,
+    #1e1b4b,
+    #312e81
+  ) !important;
+}
+.social-card,
+.create-post-card,
+.post-card,
+.users-panel,
+.user-card,
+.welcome-glass-card {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
