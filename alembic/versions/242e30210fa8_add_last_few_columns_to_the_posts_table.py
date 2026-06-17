@@ -21,12 +21,12 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade():
     # """Upgrade schema."""
     op.add_column('posts', sa.Column('published', sa.Boolean(), nullable=False, server_default="True"))
-    op.add_column('posts', sa.Column('created_at', sa.TIMESTAMP(timezone=True),server_default=sa.text('NOW()'),nullable=False))
+    
     pass
 
 
 def downgrade():
     # """Downgrade schema."""
     op.drop_column('posts','published')
-    op.drop_column('posts','created_at')
+    
     pass
