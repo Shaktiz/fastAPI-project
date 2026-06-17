@@ -7,8 +7,6 @@ class PostBase(BaseModel):
     content: str
     published: bool = True
     
-
-
 class PostCreate(PostBase):
     pass
 
@@ -26,7 +24,7 @@ class UserOut(BaseModel):
 class Post(PostBase):
     id: int
     owner_id:int
-    created_at: datetime
+    # created_at: datetime
     owner:UserOut #to saw owner details
     
     class Config:
@@ -35,7 +33,7 @@ class Post(PostBase):
 class PostResponse(PostBase):
     id: int
     owner_id: int
-    created_at: datetime
+    # created_at: datetime
     
     class Config:
         from_attributes = True
