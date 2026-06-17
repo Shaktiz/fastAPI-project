@@ -7,6 +7,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import SavedPosts from "./pages/SavedPosts";
+import LikedPosts from "./pages/LikedPosts";
 function App() {
   const [search, setSearch] = useState("");
 
@@ -34,6 +35,7 @@ function App() {
         />
         <Route path="/profile" element={<Profile />} />
         <Route path="/saved-posts"element={<SavedPosts />} />
+        <Route path="/liked-posts"element={<LikedPosts />} />
       </Routes>
     </BrowserRouter>
   );

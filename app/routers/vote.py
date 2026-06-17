@@ -30,3 +30,9 @@ def vote(vote: schemas.Vote,db: Session = Depends(database.get_db), current_user
         db.commit()
         return {"message": "Successfully deleted vote"}
     
+@router.get("/liked-posts")
+def get_liked_posts(db: Session = Depends(database.get_db),current_user = Depends(oauth2.get_current_user)):
+    posts = (
+        db.query(models.Post).join(models.Vote,models.Vote.post_id == models.Post.id).filter(models.Vote.user_id == current_user.id).all())
+
+    return posts

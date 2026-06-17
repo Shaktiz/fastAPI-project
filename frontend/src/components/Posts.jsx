@@ -839,7 +839,7 @@ const authConfig = useMemo(
                   </>
                 ) : (
                   <span className="badge bg-secondary">
-                    Community Post
+                    {/* Community Post */}
                   </span>
                 )}
 
