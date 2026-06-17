@@ -5,7 +5,6 @@ import Navbar from "../components/Navbar";
 function SavedPosts() {
 
   const [posts, setPosts] = useState([]);
-
   const token = localStorage.getItem("token");
 
   const API_URL =
