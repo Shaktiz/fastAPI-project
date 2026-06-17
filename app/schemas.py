@@ -6,15 +6,27 @@ class PostBase(BaseModel):
     title: str
     content: str
     published: bool = True
+    
 
 
 class PostCreate(PostBase):
     pass
 
+class UserOut(BaseModel):
+    id: int
+    email: EmailStr
+    address: Optional[str]
+    phone_number: Optional[str]
+    bio: Optional[str]
+    profile_image: Optional[str]
+
+    class Config:
+        from_attributes = True
+        
 class Post(PostBase):
     id: int
-    # created_at: datetime
     owner_id:int
+    created_at: datetime
     owner:UserOut #to saw owner details
     
     class Config:
@@ -22,9 +34,9 @@ class Post(PostBase):
 
 class PostResponse(PostBase):
     id: int
-    # created_at: datetime
     owner_id: int
-
+    created_at: datetime
+    
     class Config:
         from_attributes = True
 
@@ -42,25 +54,7 @@ class UserUpdate(BaseModel):
     bio: Optional[str] = None
     profile_image: Optional[str] = None
 
-# class UserOut(BaseModel):
-#     id: int
-#     email: EmailStr
-#     # created_at: datetime
-#     phone_number : Optional[int]
-#     address:str
-        
-#     class Config:
-#         from_attributes = True
-class UserOut(BaseModel):
-    id: int
-    email: EmailStr
-    address: Optional[str]
-    phone_number: Optional[str]
-    bio: Optional[str]
-    profile_image: Optional[str]
 
-    class Config:
-        from_attributes = True
                 
 class UserLogin(BaseModel):
     email:EmailStr

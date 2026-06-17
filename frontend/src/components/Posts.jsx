@@ -625,14 +625,18 @@ const authConfig = useMemo(
                   className="profile-avatar me-3"
                 />
 
-                <div>
+                {/* <div>
                   <strong
                     style={{ color: "white" }}
                   >
                     Posted by User #{p.Post.owner_id}
                   </strong>
+                </div> */}
+                <div>
+                  <strong>
+                    👤 {p.owner_name || p.owner_email}
+                  </strong>
                 </div>
-
               </div>
 
               <div className="d-flex align-items-center gap-3 mb-4">
