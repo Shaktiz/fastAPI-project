@@ -181,6 +181,13 @@ useEffect(() => {
             >
               👤 Profile
             </button>
+            
+            <button
+              className="nav-glass-btn"
+              onClick={() => navigate("/saved-posts")}
+              >
+              🔖 Saved Posts
+            </button>
 
             <button
               className="nav-glass-btn"

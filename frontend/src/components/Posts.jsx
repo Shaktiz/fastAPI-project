@@ -346,11 +346,38 @@ const [posts, setPosts] = useState([]);
 const [likedPosts, setLikedPosts] = useState([]);
 const [title, setTitle] = useState("");
 const [content, setContent] = useState("");
-
+const [comments, setComments] = useState({});
+const [commentText, setCommentText] = useState({});
+const [savedPosts, setSavedPosts] = useState([]);
 const token = localStorage.getItem("token");
 const currentUserId = Number(localStorage.getItem("user_id"));
 
 const API_URL = "https://fastapi-project-1-j38l.onrender.com";
+
+const getRelativeTime = (dateString) => {
+  if (!dateString) return "";
+
+  const now = new Date();
+  const created = new Date(dateString);
+
+  const diff = Math.floor(
+    (now - created) / 1000
+  );
+
+  if (diff < 60)
+    return `${diff} sec ago`;
+
+  if (diff < 3600)
+    return `${Math.floor(diff / 60)} min ago`;
+
+  if (diff < 86400)
+    return `${Math.floor(diff / 3600)} hr ago`;
+
+  if (diff < 2592000)
+    return `${Math.floor(diff / 86400)} day ago`;
+
+  return created.toLocaleDateString();
+};
 
 const authConfig = useMemo(
       () => ({
@@ -370,6 +397,9 @@ const authConfig = useMemo(
 
 
         setPosts(res.data || []);
+        res.data.forEach((p) => {
+          loadComments(p.Post.id);
+        });
       } catch (err) {
         console.log(err);
         alert("Failed to load posts");
@@ -507,6 +537,61 @@ const authConfig = useMemo(
 
       };
 
+      const savePost = async (postId) => {
+          try {
+            await axios.post(
+              `${API_URL}/saved-posts/`,
+              { post_id: postId },
+              authConfig
+            );
+
+            alert("Post Saved");
+
+            setSavedPosts((prev) => [...prev, postId]);
+          } catch (err) {
+            console.log(err);
+            alert("Already saved");
+          }
+        };
+      
+        const loadComments = async (postId) => {
+            try {
+              const res = await axios.get(
+                `${API_URL}/comments/${postId}`,
+                authConfig
+              );
+
+              setComments((prev) => ({
+                ...prev,
+                [postId]: res.data,
+              }));
+            } catch (err) {
+              console.log(err);
+            }
+          };
+          
+          const addComment = async (postId) => {
+              try {
+                await axios.post(
+                  `${API_URL}/comments/`,
+                  {
+                    post_id: postId,
+                    content: commentText[postId],
+                  },
+                  authConfig
+                );
+
+                setCommentText({
+                  ...commentText,
+                  [postId]: "",
+                });
+
+                loadComments(postId);
+              } catch (err) {
+                console.log(err);
+              }
+            };
+
       const filteredPosts = posts.filter((p) => {
       if (!search?.trim()) return true;
 
@@ -634,12 +719,18 @@ const authConfig = useMemo(
                 </div> */}
                 <div>
                   <strong>
-                    👤 {p.owner_name || p.owner_email}
+                    Posted By : {p.Post.owner?.email?.split("@")[0] || "Unknown User"}
                   </strong>
+                  
+                  <br />
+                  
+                  <small className="text-muted">
+                     {getRelativeTime(p.Post.created_at)}
+                  </small>
                 </div>
               </div>
 
-              <div className="d-flex align-items-center gap-3 mb-4">
+              {/* <div className="d-flex align-items-center gap-3 mb-4">
 
                 <button
                   className="like-btn"
@@ -656,7 +747,72 @@ const authConfig = useMemo(
                   👍 {p.votes || 0}
                 </span>
 
-              </div>
+              </div> */}
+              <div className="d-flex align-items-center gap-3 mb-4">
+
+                  <button
+                    className="like-btn"
+                    onClick={() => toggleVote(p.Post.id)}
+                  >
+                    {liked ? "❤️ Liked" : "🤍 Like"}
+                  </button>
+
+                  <button
+                    className="btn btn-warning"
+                    onClick={() => savePost(p.Post.id)}
+                  >
+                    🔖 Save
+                  </button>
+
+                  <span className="badge bg-success">
+                    👍 {p.votes || 0}
+                  </span>
+
+                </div>
+              <hr />
+
+                <h6 style={{ color: "white" }}>
+                  💬 Comments
+                </h6>
+
+                <div className="mb-3">
+
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Write a comment..."
+                    value={commentText[p.Post.id] || ""}
+                    onChange={(e) =>
+                      setCommentText({
+                        ...commentText,
+                        [p.Post.id]: e.target.value,
+                      })
+                    }
+                  />
+
+                  <button
+                    className="btn btn-info mt-2"
+                    onClick={() => addComment(p.Post.id)}
+                  >
+                    Add Comment
+                  </button>
+
+                </div>
+
+                {comments[p.Post.id]?.map((c) => (
+                  <div
+                    key={c.id}
+                    className="bg-dark text-light p-2 rounded mb-2"
+                  >
+                    <strong>
+                      {c.owner?.email?.split("@")[0]}
+                    </strong>
+
+                    <br />
+
+                    {c.content}
+                  </div>
+                ))}
 
               <div className="d-flex gap-2 flex-wrap">
 

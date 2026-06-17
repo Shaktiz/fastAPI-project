@@ -283,6 +283,23 @@ function Profile() {
               >
                 💾 Save Profile
               </button>
+                <button
+                  className="btn btn-success"
+                  onClick={() =>
+                  window.location.href="/saved-posts"
+                  }
+                  >
+                  🔖 Saved Posts
+                  </button>
+
+                  <button
+                  className="btn btn-info"
+                  onClick={() =>
+                  window.location.href="/liked-posts"
+                  }
+                  >
+                  ❤️ Liked Posts
+                </button>
 
               <button
                 className="btn btn-danger flex-fill"

@@ -75,3 +75,21 @@ class PostOut(BaseModel):
 
     class Config: 
         from_attributes = True
+        
+class CommentCreate(BaseModel):
+    content: str
+
+
+class CommentOut(BaseModel):
+    id: int
+    content: str
+    created_at: datetime
+
+    user: UserOut
+
+    class Config:
+        from_attributes = True
+
+
+class SavePost(BaseModel):
+    post_id: int
