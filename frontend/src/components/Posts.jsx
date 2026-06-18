@@ -348,6 +348,7 @@ const [title, setTitle] = useState("");
 const [content, setContent] = useState("");
 const [comments, setComments] = useState({});
 const [commentText, setCommentText] = useState({});
+
 const [savedPosts, setSavedPosts] = useState([]);
 const token = localStorage.getItem("token");
 const currentUserId = Number(localStorage.getItem("user_id"));
@@ -536,23 +537,45 @@ const authConfig = useMemo(
 
 
       };
-
-      const savePost = async (postId) => {
+      const loadSavedPosts = async () => {
           try {
-            await axios.post(
-              `${API_URL}/saved-posts/`,
-              { post_id: postId },
+            const res = await axios.get(
+              `${API_URL}/saved-posts/ids`,
               authConfig
             );
 
-            alert("Post Saved");
-
-            setSavedPosts((prev) => [...prev, postId]);
+            setSavedPosts(res.data || []);
           } catch (err) {
             console.log(err);
-            alert("Already saved");
           }
         };
+        useEffect(() => {
+          loadPosts();
+          loadSavedPosts();
+        }, []);
+      const savePost = async (postId) => {
+            try {
+              const res = await axios.post(
+                `${API_URL}/saved-posts/${postId}`,
+                {},
+                authConfig
+              );
+
+              if (
+                res.data.message ===
+                "Post Saved Successfully"
+              ) {
+                setSavedPosts((prev) => [
+                  ...prev,
+                  postId,
+                ]);
+              }
+
+              alert(res.data.message);
+            } catch (err) {
+              console.log(err);
+            }
+          };
       
         const loadComments = async (postId) => {
             try {
@@ -758,11 +781,18 @@ const authConfig = useMemo(
                   </button>
 
                   <button
-                    className="btn btn-warning"
-                    onClick={() => savePost(p.Post.id)}
-                  >
-                    🔖 Save
-                  </button>
+                      className={
+                        savedPosts.includes(p.Post.id)
+                          ? "btn btn-success"
+                          : "btn btn-outline-success"
+                      }
+                      disabled={savedPosts.includes(p.Post.id)}
+                      onClick={() => savePost(p.Post.id)}
+                    >
+                      {savedPosts.includes(p.Post.id)
+                        ? "✅ Saved"
+                        : "🔖 Save"}
+                    </button>
 
                   <span className="badge bg-success">
                     👍 {p.votes || 0}

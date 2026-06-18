@@ -61,3 +61,15 @@ def get_saved_posts(
     print("POSTS:", posts)
 
     return posts
+
+@router.get("/ids")
+def get_saved_post_ids(
+    db: Session = Depends(get_db),
+    current_user=Depends(oauth2.get_current_user)
+):
+
+    saved = db.query(models.SavedPost).filter(
+        models.SavedPost.user_id == current_user.id
+    ).all()
+
+    return [s.post_id for s in saved]
