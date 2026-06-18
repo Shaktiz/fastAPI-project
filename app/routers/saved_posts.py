@@ -17,6 +17,16 @@ def save_post(
     current_user=Depends(oauth2.get_current_user)
 ):
 
+    already_saved = db.query(models.SavedPost).filter(
+        models.SavedPost.post_id == post_id,
+        models.SavedPost.user_id == current_user.id
+    ).first()
+
+    if already_saved:
+        return {
+            "message": "Post already saved"
+        }
+
     save = models.SavedPost(
         post_id=post_id,
         user_id=current_user.id
@@ -25,22 +35,29 @@ def save_post(
     db.add(save)
     db.commit()
 
-    return {"message": "Post Saved"}
-
+    return {
+        "message": "Post Saved Successfully"
+    }
+    
 @router.get("/")
 def get_saved_posts(
     db: Session = Depends(get_db),
     current_user=Depends(oauth2.get_current_user)
 ):
 
-    posts = db.query(models.Post)\
+    posts = (
+        db.query(models.Post)
         .join(
             models.SavedPost,
             models.SavedPost.post_id == models.Post.id
-        )\
+        )
         .filter(
             models.SavedPost.user_id == current_user.id
-        )\
+        )
         .all()
+    )
+
+    print("CURRENT USER:", current_user.id)
+    print("POSTS:", posts)
 
     return posts

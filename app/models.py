@@ -32,15 +32,29 @@ class Vote(Base):
     post_id=Column(Integer,ForeignKey("posts.id",ondelete="CASCADE"),primary_key=True)
     
     
+# class SavedPost(Base):
+#     __tablename__ = "saved_posts"
+
+#     user_id = Column(Integer,ForeignKey("users.id", ondelete="CASCADE"),primary_key=True)
+
+#     post_id = Column(Integer,ForeignKey("posts.id", ondelete="CASCADE"),primary_key=True)
+
+#     created_at = Column(TIMESTAMP(timezone=True),server_default=text("now()"),nullable=False)
+
 class SavedPost(Base):
     __tablename__ = "saved_posts"
 
-    user_id = Column(Integer,ForeignKey("users.id", ondelete="CASCADE"),primary_key=True)
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id", ondelete="CASCADE"),
+        primary_key=True
+    )
 
-    post_id = Column(Integer,ForeignKey("posts.id", ondelete="CASCADE"),primary_key=True)
-
-    created_at = Column(TIMESTAMP(timezone=True),server_default=text("now()"),nullable=False)
-
+    post_id = Column(
+        Integer,
+        ForeignKey("posts.id", ondelete="CASCADE"),
+        primary_key=True
+    )
 
 class Comment(Base):
     __tablename__ = "comments"
