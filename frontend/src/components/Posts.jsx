@@ -344,6 +344,7 @@ import axios from "axios";
 function Posts({ search }) {
 const [posts, setPosts] = useState([]);
 const [likedPosts, setLikedPosts] = useState([]);
+
 const [title, setTitle] = useState("");
 const [content, setContent] = useState("");
 const [comments, setComments] = useState({});
@@ -503,40 +504,99 @@ const authConfig = useMemo(
       }
 
       };
+      const loadLikedPosts = async () => {
+          try {
 
-      const toggleVote = async (postId) => {
-      try {
-      const alreadyLiked =
-      likedPosts.includes(postId);
+            const res = await axios.get(
+              `${API_URL}/vote/liked-post-ids`,
+              authConfig
+            );
 
-        await axios.post(
-          `${API_URL}/vote/`,
-          {
-            post_id: postId,
-            dir: alreadyLiked ? 0 : 1,
-          },
-          authConfig
-        );
+            setLikedPosts(res.data || []);
 
-        if (alreadyLiked) {
-          setLikedPosts((prev) =>
-            prev.filter((id) => id !== postId)
-          );
-        } else {
-          setLikedPosts((prev) => [
-            ...prev,
-            postId,
-          ]);
-        }
+          } catch (err) {
+            console.log(err);
+          }
+        };
 
-        loadPosts();
-      } catch (err) {
-        console.log(err);
-        alert("Vote action failed");
-      }
+        useEffect(() => {
+          loadPosts();
+          loadLikedPosts();
+        }, [loadPosts]);
+
+      // const toggleVote = async (postId) => {
+      // try {
+      // const alreadyLiked =
+      // likedPosts.includes(postId);
+
+      //   await axios.post(
+      //     `${API_URL}/vote/`,
+      //     {
+      //       post_id: postId,
+      //       dir: alreadyLiked ? 0 : 1,
+      //     },
+      //     authConfig
+      //   );
+
+      //   if (alreadyLiked) {
+      //     setLikedPosts((prev) =>
+      //       prev.filter((id) => id !== postId)
+      //     );
+      //   } else {
+      //     setLikedPosts((prev) => [
+      //       ...prev,
+      //       postId,
+      //     ]);
+      //   }
+
+      //   loadPosts();
+      // } catch (err) {
+      //   console.log(err);
+      //   alert("Vote action failed");
+      // }
 
 
-      };
+      // };
+
+    const toggleVote = async (postId) => {
+          try {
+
+            const liked =
+              likedPosts.includes(postId);
+
+            await axios.post(
+              `${API_URL}/vote/`,
+              {
+                post_id: postId,
+                dir: liked ? 0 : 1,
+              },
+              authConfig
+            );
+
+            if (liked) {
+
+              setLikedPosts((prev) =>
+                prev.filter((id) => id !== postId)
+              );
+
+            } else {
+
+              setLikedPosts((prev) => [
+                ...prev,
+                postId,
+              ]);
+
+            }
+
+            loadPosts();
+
+          } catch (err) {
+
+            console.log(err);
+
+          }
+        };
+
       const loadSavedPosts = async () => {
           try {
             const res = await axios.get(
@@ -753,31 +813,27 @@ const authConfig = useMemo(
                 </div>
               </div>
 
-              {/* <div className="d-flex align-items-center gap-3 mb-4">
-
-                <button
-                  className="like-btn"
-                  onClick={() =>
-                    toggleVote(p.Post.id)
-                  }
-                >
-                  {liked
-                    ? "❤️ Liked"
-                    : "🤍 Like"}
-                </button>
-
-                <span className="badge bg-success">
-                  👍 {p.votes || 0}
-                </span>
-
-              </div> */}
               <div className="d-flex align-items-center gap-3 mb-4">
 
-                  <button
+                  {/* <button
                     className="like-btn"
                     onClick={() => toggleVote(p.Post.id)}
                   >
                     {liked ? "❤️ Liked" : "🤍 Like"}
+                  </button> */}
+                <button
+                    className={`btn ${
+                      liked
+                        ? "btn-danger"
+                        : "btn-outline-danger"
+                    }`}
+                    onClick={() =>
+                      toggleVote(p.Post.id)
+                    }
+                  >
+                    {liked
+                      ? "❤️ Liked"
+                      : "🤍 Like"}
                   </button>
 
                   <button
@@ -790,8 +846,8 @@ const authConfig = useMemo(
                       onClick={() => savePost(p.Post.id)}
                     >
                       {savedPosts.includes(p.Post.id)
-                        ? "✅ Saved"
-                        : "🔖 Save"}
+                        ? "✅ Saved Post"
+                        : "🔖 Save Post"}
                     </button>
 
                   <span className="badge bg-success">

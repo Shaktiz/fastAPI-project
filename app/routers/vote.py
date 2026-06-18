@@ -29,10 +29,34 @@ def vote(vote: schemas.Vote,db: Session = Depends(database.get_db), current_user
         vote_query.delete(synchronize_session=False)
         db.commit()
         return {"message": "Successfully deleted vote"}
-    
 @router.get("/liked-posts")
-def get_liked_posts(db: Session = Depends(database.get_db),current_user = Depends(oauth2.get_current_user)):
+def get_liked_posts(
+    db: Session = Depends(database.get_db),
+    current_user=Depends(oauth2.get_current_user)
+):
+
     posts = (
-        db.query(models.Post).join(models.Vote,models.Vote.post_id == models.Post.id).filter(models.Vote.user_id == current_user.id).all())
+        db.query(models.Post)
+        .join(
+            models.Vote,
+            models.Vote.post_id == models.Post.id
+        )
+        .filter(
+            models.Vote.user_id == current_user.id
+        )
+        .all()
+    )
 
     return posts
+    
+@router.get("/liked-post-ids")
+def get_liked_post_ids(
+    db: Session = Depends(database.get_db),
+    current_user=Depends(oauth2.get_current_user)
+):
+
+    likes = db.query(models.Vote).filter(
+        models.Vote.user_id == current_user.id
+    ).all()
+
+    return [like.post_id for like in likes]
