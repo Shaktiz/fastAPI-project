@@ -512,7 +512,9 @@ const authConfig = useMemo(
               authConfig
             );
 
-            setLikedPosts(res.data || []);
+            setLikedPosts(
+              (res.data || []).map((id) => Number(id))
+            );
 
           } catch (err) {
             console.log(err);
@@ -559,43 +561,49 @@ const authConfig = useMemo(
       // };
 
     const toggleVote = async (postId) => {
-          try {
+        try {
 
-            const liked =
-              likedPosts.includes(postId);
+          const liked =
+            likedPosts.includes(Number(postId));
 
-            await axios.post(
-              `${API_URL}/vote/`,
-              {
-                post_id: postId,
-                dir: liked ? 0 : 1,
-              },
-              authConfig
+          await axios.post(
+            `${API_URL}/vote/`,
+            {
+              post_id: postId,
+              dir: liked ? 0 : 1,
+            },
+            authConfig
+          );
+
+          if (liked) {
+
+            setLikedPosts((prev) =>
+              prev.filter(
+                (id) => Number(id) !== Number(postId)
+              )
             );
 
-            if (liked) {
+          } else {
 
-              setLikedPosts((prev) =>
-                prev.filter((id) => id !== postId)
-              );
-
-            } else {
-
-              setLikedPosts((prev) => [
-                ...prev,
-                postId,
-              ]);
-
-            }
-
-            loadPosts();
-
-          } catch (err) {
-
-            console.log(err);
+            setLikedPosts((prev) => [
+              ...prev,
+              Number(postId),
+            ]);
 
           }
-        };
+
+          loadPosts();
+
+        } catch (err) {
+          console.log(err);
+
+          if (
+            err?.response?.data?.detail
+          ) {
+            alert(err.response.data.detail);
+          }
+        }
+      };
 
       const loadSavedPosts = async () => {
           try {
