@@ -526,40 +526,6 @@ const authConfig = useMemo(
           loadLikedPosts();
         }, [loadPosts]);
 
-      // const toggleVote = async (postId) => {
-      // try {
-      // const alreadyLiked =
-      // likedPosts.includes(postId);
-
-      //   await axios.post(
-      //     `${API_URL}/vote/`,
-      //     {
-      //       post_id: postId,
-      //       dir: alreadyLiked ? 0 : 1,
-      //     },
-      //     authConfig
-      //   );
-
-      //   if (alreadyLiked) {
-      //     setLikedPosts((prev) =>
-      //       prev.filter((id) => id !== postId)
-      //     );
-      //   } else {
-      //     setLikedPosts((prev) => [
-      //       ...prev,
-      //       postId,
-      //     ]);
-      //   }
-
-      //   loadPosts();
-      // } catch (err) {
-      //   console.log(err);
-      //   alert("Vote action failed");
-      // }
-
-
-      // };
-
     const toggleVote = async (postId) => {
         try {
 
