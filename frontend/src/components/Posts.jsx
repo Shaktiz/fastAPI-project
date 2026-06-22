@@ -521,7 +521,7 @@ const authConfig = useMemo(
               }}
             >
               <strong>
-                {p.Post.owner?.email?.split("@")[0] ||
+                Posted by : {p.Post.owner?.email?.split("@")[0] ||
                   "Unknown User"}
               </strong>
             </div>
