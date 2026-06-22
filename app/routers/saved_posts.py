@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app import models, oauth2
@@ -73,3 +73,29 @@ def get_saved_post_ids(
     ).all()
 
     return [s.post_id for s in saved]
+
+@router.delete("/{post_id}")
+def unsave_post(
+    post_id: int,
+    db: Session = Depends(get_db),
+    current_user=Depends(oauth2.get_current_user)
+):
+
+    saved_post = db.query(models.SavedPost).filter(
+        models.SavedPost.post_id == post_id,
+        models.SavedPost.user_id == current_user.id
+    ).first()
+
+    if not saved_post:
+        raise HTTPException(
+            status_code=404,
+            detail="Saved post not found"
+        )
+
+    db.delete(saved_post)
+
+    db.commit()
+
+    return {
+        "message": "Post removed from saved posts"
+    }

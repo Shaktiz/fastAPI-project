@@ -587,6 +587,7 @@ const authConfig = useMemo(
           loadPosts();
           loadSavedPosts();
         }, []);
+        
       const savePost = async (postId) => {
             try {
               const res = await axios.post(
@@ -610,44 +611,54 @@ const authConfig = useMemo(
               console.log(err);
             }
           };
-      
+
         const loadComments = async (postId) => {
-            try {
-              const res = await axios.get(
-                `${API_URL}/comments/${postId}`,
-                authConfig
-              );
+          try {
 
-              setComments((prev) => ({
-                ...prev,
-                [postId]: res.data,
-              }));
-            } catch (err) {
-              console.log(err);
-            }
-          };
-          
-          const addComment = async (postId) => {
-              try {
-                await axios.post(
-                  `${API_URL}/comments/`,
-                  {
-                    post_id: postId,
-                    content: commentText[postId],
-                  },
-                  authConfig
-                );
+            const res = await axios.get(
+              `${API_URL}/comments/${postId}`,
+              authConfig
+            );
 
-                setCommentText({
-                  ...commentText,
-                  [postId]: "",
-                });
+            setComments((prev) => ({
+              ...prev,
+              [postId]: res.data || [],
+            }));
 
-                loadComments(postId);
-              } catch (err) {
-                console.log(err);
-              }
-            };
+          } catch (err) {
+            console.log(err);
+          }
+        };
+
+        const addComment = async (postId) => {
+          try {
+
+            await axios.post(
+              `${API_URL}/comments/${postId}`,
+              {
+                content: commentText[postId],
+              },
+              authConfig
+            );
+
+            setCommentText((prev) => ({
+              ...prev,
+              [postId]: "",
+            }));
+
+            await loadComments(postId);
+
+          } catch (err) {
+            console.log(err);
+
+            console.log(
+              "COMMENT ERROR:",
+              err.response?.data
+            );
+
+            alert("Failed to add comment");
+          }
+        };
 
       const filteredPosts = posts.filter((p) => {
       if (!search?.trim()) return true;
@@ -767,13 +778,6 @@ const authConfig = useMemo(
                   className="profile-avatar me-3"
                 />
 
-                {/* <div>
-                  <strong
-                    style={{ color: "white" }}
-                  >
-                    Posted by User #{p.Post.owner_id}
-                  </strong>
-                </div> */}
                 <div>
                   <strong>
                     Posted By : {p.Post.owner?.email?.split("@")[0] || "Unknown User"}
@@ -789,12 +793,6 @@ const authConfig = useMemo(
 
               <div className="d-flex align-items-center gap-3 mb-4">
 
-                  {/* <button
-                    className="like-btn"
-                    onClick={() => toggleVote(p.Post.id)}
-                  >
-                    {liked ? "❤️ Liked" : "🤍 Like"}
-                  </button> */}
                 <button
                     className={`btn ${
                       liked
