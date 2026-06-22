@@ -1,342 +1,4 @@
 
-// import { useEffect, useState } from "react";
-// import { useCallback, useMemo  } from "react";
-// import axios from "axios";
-
-// function Posts({ search, darkMode }) {
-//   const [posts, setPosts] = useState([]);
-//   const [likedPosts, setLikedPosts] = useState([]);
-//   const [title, setTitle] = useState("");
-//   const [content, setContent] = useState("");
-
-//   const token = localStorage.getItem("token");
-//   const currentUserId = Number(localStorage.getItem("user_id"));
-
-//   const API_URL =
-//     "https://fastapi-project-1-j38l.onrender.com";
-
-//   const authConfig = useMemo(
-//       () => ({
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       }),
-//       [token]
-//     );
-  
-//     // const loadPosts = async () => {
-//   const loadPosts = useCallback(async () => {
-//     try {
-//       const res = await axios.get(
-//         `${API_URL}/posts/`,
-//         authConfig
-//       );
-
-//       setPosts(res.data || []);
-//       } catch (err) {
-//       console.log(err);
-//       alert("Failed to load posts");}
-//     }, [authConfig]);
-
-//     useEffect(() => {
-//       loadPosts();
-//     }, [loadPosts]);
-
-//   const createPost = async () => {
-//     if (!title.trim() || !content.trim()) {
-//       alert("Please enter title and content");
-//       return;
-//     }
-
-//     try {
-//       await axios.post(
-//         `${API_URL}/posts/`,
-//         {
-//           title,
-//           content,
-//           published: true,
-//         },
-//         authConfig
-//       );
-
-//       setTitle("");
-//       setContent("");
-
-//       loadPosts();
-//     } catch (err) {
-//       console.log(err);
-//       alert("Failed to create post");
-//     }
-//   };
-
-//   const deletePost = async (post) => {
-//     if (post.Post.owner_id !== currentUserId) {
-//       alert("You can only delete your own posts");
-//       return;
-//     }
-
-//     if (!window.confirm("Delete this post?")) {
-//       return;
-//     }
-
-//     try {
-//       await axios.delete(
-//         `${API_URL}/posts/${post.Post.id}`,
-//         authConfig
-//       );
-
-//       loadPosts();
-//     } catch (err) {
-//       console.log(err);
-//       alert("Delete failed");
-//     }
-//   };
-
-//   const updatePost = async (post) => {
-//     if (post.Post.owner_id !== currentUserId) {
-//       alert("You can only edit your own posts");
-//       return;
-//     }
-
-//     const newTitle = prompt(
-//       "Enter New Title",
-//       post.Post.title
-//     );
-
-//     if (newTitle === null) return;
-
-//     const newContent = prompt(
-//       "Enter New Content",
-//       post.Post.content
-//     );
-
-//     if (newContent === null) return;
-
-//     try {
-//       await axios.put(
-//         `${API_URL}/posts/${post.Post.id}`,
-//         {
-//           title: newTitle,
-//           content: newContent,
-//           published: true,
-//         },
-//         authConfig
-//       );
-
-//       loadPosts();
-//     } catch (err) {
-//       console.log(err);
-//       alert("Update failed");
-//     }
-//   };
-
-//   const toggleVote = async (postId) => {
-//     try {
-//       const alreadyLiked =
-//         likedPosts.includes(postId);
-
-//       await axios.post(
-//         `${API_URL}/vote/`,
-//         {
-//           post_id: postId,
-//           dir: alreadyLiked ? 0 : 1,
-//         },
-//         authConfig
-//       );
-
-//       if (alreadyLiked) {
-//         setLikedPosts((prev) =>
-//           prev.filter((id) => id !== postId)
-//         );
-//       } else {
-//         setLikedPosts((prev) => [
-//           ...prev,
-//           postId,
-//         ]);
-//       }
-
-//       loadPosts();
-//     } catch (err) {
-//       console.log(err);
-//       alert("Vote action failed");
-//     }
-//   };
-
-//   const filteredPosts = posts.filter((p) => {
-//     if (!search?.trim()) return true;
-
-//     const query = search.toLowerCase();
-
-//     return (
-//       p.Post.title?.toLowerCase().includes(query) ||
-//       p.Post.content?.toLowerCase().includes(query)
-//     );
-//   });
-
-//   return (
-//     // <div className="container-fluid">
-//     <div className="social-card mb-4">
-//       <div className="d-flex justify-content-between align-items-center mb-4">
-//         <h2 className="fw-bold text-primary">
-//           📢 Community Posts
-//         </h2>
-
-//         <span className="badge bg-primary fs-6">
-//           Total Posts: {filteredPosts.length}
-//         </span>
-//       </div>
-
-//       {/* Create Post */}
-
-//       <div
-//         // className={`card shadow-lg border-0 rounded-4 p-4 mb-4 ${
-//           className={`create-post-card mb-4 ${
-//           darkMode ? "bg-dark text-light" : ""
-//         }`}
-//       >
-//         <h5>✍️ Create New Post</h5>
-
-//         <input
-//           className="form-control my-2"
-//           placeholder="Post Title"
-//           value={title}
-//           onChange={(e) =>
-//             setTitle(e.target.value)
-//           }
-//         />
-
-//         <textarea
-//           className="form-control my-2"
-//           rows="4"
-//           placeholder="Write something..."
-//           value={content}
-//           onChange={(e) =>
-//             setContent(e.target.value)
-//           }
-//         />
-
-//         <button
-//           className="btn btn-primary mt-2"
-//           onClick={createPost}
-//         >
-//           🚀 Publish Post
-//         </button>
-//       </div>
-
-//       {/* Posts List */}
-
-//       {filteredPosts.map((p) => {
-//         const liked = likedPosts.includes(
-//           p.Post.id
-//         );
-
-//         return (
-//           <div
-//             key={p.Post.id}
-//             className={`card shadow-lg border-0 rounded-4 p-4 mb-4 ${
-//               darkMode
-//                 ? "bg-dark text-light"
-//                 : ""
-//             }`}
-//           >
-//             <div className="d-flex justify-content-between align-items-center">
-
-//               <h4 className="text-primary">
-//                 {p.Post.title}
-//               </h4>
-
-//               <span className="badge bg-secondary">
-//                 #{p.Post.id}
-//               </span>
-
-//             </div>
-
-//             <hr />
-
-//             <p>{p.Post.content}</p>
-
-//               <div className="d-flex align-items-center mb-3">
-//                 <img
-//                   src={
-//                     p.profile_image
-//                       ? `${API_URL}${p.profile_image}`
-//                       : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-//                   }
-//                   alt="Profile"
-//                   width="40"
-//                   height="40"
-//                   className="rounded-circle me-2"
-//                 />
-
-//                 <div>
-//                   <strong>Posted by : User #{p.Post.owner_id}</strong>
-//                 </div>
-//               </div>
-
-//             <div className="mb-3">
-
-//               <button
-//                 className={`btn ${
-//                   liked
-//                     ? "btn-danger"
-//                     : "btn-outline-danger"
-//                 }`}
-//                 onClick={() =>
-//                   toggleVote(p.Post.id)
-//                 }
-//               >
-//                 {liked
-//                   ? "❤️ Liked"
-//                   : "🤍 Like"}
-//               </button>
-
-//               <span className="badge bg-success ms-3">
-//                 👍 {p.votes || 0}
-//               </span>
-
-//             </div>
-//             {p.Post.owner_id ===
-//               currentUserId ? (
-//                 <>
-//                   <button
-//                     className="btn btn-outline-warning me-2"
-//                     onClick={() =>
-//                       updatePost(p)
-//                     }
-//                   >
-//                     ✏️ Edit
-//                   </button>
-
-//                   <button
-//                     className="btn btn-outline-danger"
-//                     onClick={() =>
-//                       deletePost(p)
-//                     }
-//                   >
-//                     🗑 Delete
-//                   </button>
-//                 </>
-//               ) : (
-//                 <span className="badge bg-secondary">
-//                   Other User Post
-//                 </span>
-//               )}
-//           </div>
-//         );
-//       })}
-
-//       {filteredPosts.length === 0 && (
-//         <div className="card p-5 text-center">
-//           <h4>🔍 No Posts Found</h4>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default Posts;
-
-
 
 import { useEffect, useState, useCallback, useMemo } from "react";
 import axios from "axios";
@@ -353,7 +15,8 @@ const [commentText, setCommentText] = useState({});
 const [savedPosts, setSavedPosts] = useState([]);
 const token = localStorage.getItem("token");
 const currentUserId = Number(localStorage.getItem("user_id"));
-
+const [openPostMenu, setOpenPostMenu] = useState(null);
+const [openCommentMenu, setOpenCommentMenu] = useState(null);
 const API_URL = "https://fastapi-project-1-j38l.onrender.com";
 
 const getRelativeTime = (dateString) => {
@@ -587,7 +250,7 @@ const authConfig = useMemo(
           loadPosts();
           loadSavedPosts();
         }, []);
-        
+
       const savePost = async (postId) => {
             try {
               const res = await axios.post(
@@ -611,6 +274,43 @@ const authConfig = useMemo(
               console.log(err);
             }
           };
+
+        const toggleSavePost = async (postId) => {
+
+        const alreadySaved =
+          savedPosts.includes(postId);
+
+        try {
+
+          if (alreadySaved) {
+
+            await axios.delete(
+              `${API_URL}/saved-posts/${postId}`,
+              authConfig
+            );
+
+            setSavedPosts(prev =>
+              prev.filter(id => id !== postId)
+            );
+
+          } else {
+
+            await axios.post(
+              `${API_URL}/saved-posts/${postId}`,
+              {},
+              authConfig
+            );
+
+            setSavedPosts(prev => [
+              ...prev,
+              postId
+            ]);
+          }
+
+        } catch (err) {
+          console.log(err);
+        }
+      };
 
         const loadComments = async (postId) => {
           try {
@@ -660,6 +360,56 @@ const authConfig = useMemo(
           }
         };
 
+        const updateComment = async (commentId, oldContent, postId) => {
+
+          const newContent = prompt(
+            "Edit Comment",
+            oldContent
+          );
+
+          if (!newContent) return;
+
+          try {
+
+            await axios.put(
+              `${API_URL}/comments/${commentId}`,
+              {
+                content: newContent
+              },
+              authConfig
+            );
+
+            loadComments(postId);
+
+          } catch (err) {
+            console.log(err);
+          }
+        };
+        const deleteComment = async (
+            commentId,
+            postId
+          ) => {
+
+            if (
+              !window.confirm(
+                "Delete this comment?"
+              )
+            )
+              return;
+
+            try {
+
+              await axios.delete(
+                `${API_URL}/comments/${commentId}`,
+                authConfig
+              );
+
+              loadComments(postId);
+
+            } catch (err) {
+              console.log(err);
+            }
+          };
       const filteredPosts = posts.filter((p) => {
       if (!search?.trim()) return true;
 
@@ -731,181 +481,306 @@ const authConfig = useMemo(
         {/* POSTS */}
 
         {filteredPosts.map((p) => {
-          const liked =
-            likedPosts.includes(p.Post.id);
+  const liked = likedPosts.includes(p.Post.id);
+  const saved = savedPosts.includes(p.Post.id);
 
-          return (
-            <div
-              key={p.Post.id}
-              className="post-glass-card mb-4"
+  return (
+    <div
+      key={p.Post.id}
+      className="post-glass-card mb-4 position-relative"
+    >
+      {/* HEADER */}
+
+      <div className="d-flex justify-content-between align-items-start">
+
+        <div className="d-flex align-items-center">
+
+          <img
+            src={
+              p.profile_image
+                ? `${API_URL}${p.profile_image?.startsWith("/") ? "" : "/"}${p.profile_image}`
+                : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+            }
+            alt="Profile"
+            className="profile-avatar me-3"
+          />
+
+          <div>
+
+            <h4
+              className="fw-bold mb-1"
+              style={{ color: "white" }}
             >
+              {p.Post.title}
+            </h4>
 
-              <div className="d-flex justify-content-between align-items-center">
+            <div
+              style={{
+                color: "#fff",
+                fontSize: "14px",
+              }}
+            >
+              <strong>
+                {p.Post.owner?.email?.split("@")[0] ||
+                  "Unknown User"}
+              </strong>
+            </div>
 
-                <h4
-                  className="fw-bold mb-0"
-                  style={{ color: "white" }}
-                >
-                  {p.Post.title}
-                </h4>
+            <small className="text-light opacity-75">
+              {getRelativeTime(
+                p.Post.created_at
+              )}
+            </small>
 
-                <span className="badge bg-dark">
-                  #{p.Post.id}
-                </span>
+          </div>
 
-              </div>
+        </div>
 
-              <hr />
+        {/* POST OWNER MENU */}
 
-              <p
-                style={{
-                  color: "rgba(255,255,255,.95)",
-                  lineHeight: "1.8",
-                }}
-              >
-                {p.Post.content}
-              </p>
+        {p.Post.owner_id === currentUserId && (
+          <div className="dropdown">
 
-              <div className="d-flex align-items-center mb-3">
+            <button
+              className="btn btn-sm btn-dark"
+              data-bs-toggle="dropdown"
+            >
+              ⋮
+            </button>
 
-                <img
-                  src={
-                    p.profile_image
-                      ? `${API_URL}${p.profile_image?.startsWith("/") ? "" : "/"}${p.profile_image}`
-                      : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+            <ul className="dropdown-menu dropdown-menu-end">
+
+              <li>
+                <button
+                  className="dropdown-item"
+                  onClick={() =>
+                    updatePost(p)
                   }
-                  alt="Profile"
-                  className="profile-avatar me-3"
-                />
+                >
+                  ✏️ Edit Post
+                </button>
+              </li>
+
+              <li>
+                <button
+                  className="dropdown-item text-danger"
+                  onClick={() =>
+                    deletePost(p)
+                  }
+                >
+                  🗑 Delete Post
+                </button>
+              </li>
+
+            </ul>
+
+          </div>
+        )}
+
+      </div>
+
+      <hr />
+
+      {/* CONTENT */}
+
+      <p
+        style={{
+          color: "rgba(255,255,255,.95)",
+          lineHeight: "1.8",
+        }}
+      >
+        {p.Post.content}
+      </p>
+
+      {/* ACTIONS */}
+
+      <div className="d-flex flex-wrap align-items-center gap-2 mb-4">
+
+        <button
+          className={`btn ${
+            liked
+              ? "btn-danger"
+              : "btn-outline-danger"
+          }`}
+          onClick={() =>
+            toggleVote(p.Post.id)
+          }
+        >
+          {liked
+            ? "❤️ Liked"
+            : "🤍 Like"}
+        </button>
+
+        <button
+          className={`btn ${
+            saved
+              ? "btn-success"
+              : "btn-outline-success"
+          }`}
+          onClick={() =>
+            toggleSavePost(p.Post.id)
+          }
+        >
+          {saved
+            ? "✅ Saved"
+            : "🔖 Save"}
+        </button>
+
+        <span className="badge bg-success">
+          👍 {p.votes || 0}
+        </span>
+
+      </div>
+
+      {/* COMMENTS SECTION */}
+
+      {/* <div className="comments-section"> */}
+        <div
+          key={p.id}
+          className="bg-dark text-light p-3 rounded mb-2 position-relative"
+        >
+
+        <h6
+          className="mb-3"
+          style={{
+            color: "white",
+            fontWeight: "600",
+          }}
+        >
+          💬 Comments
+        </h6>
+
+        {/* ADD COMMENT */}
+
+        <div className="mb-4">
+
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Write a comment..."
+            value={
+              commentText[p.Post.id] || ""
+            }
+            onChange={(e) =>
+              setCommentText({
+                ...commentText,
+                [p.Post.id]:
+                  e.target.value,
+              })
+            }
+          />
+
+          <button
+            className="btn btn-info mt-2"
+            onClick={() =>
+              addComment(p.Post.id)
+            }
+          >
+            Add Comment
+          </button>
+
+        </div>
+
+        {/* COMMENTS LIST */}
+
+        {comments[p.Post.id]?.length >
+        0 ? (
+          comments[p.Post.id].map(
+            (c) => (
+              <div
+                key={c.id}
+                className="comment-card bg-dark text-light p-3 rounded mb-2 d-flex justify-content-between align-items-start"
+              >
 
                 <div>
-                  <strong>
-                    Posted By : {p.Post.owner?.email?.split("@")[0] || "Unknown User"}
-                  </strong>
-                  
-                  <br />
-                  
-                  <small className="text-muted">
-                     {getRelativeTime(p.Post.created_at)}
-                  </small>
-                </div>
-              </div>
 
-              <div className="d-flex align-items-center gap-3 mb-4">
-
-                <button
-                    className={`btn ${
-                      liked
-                        ? "btn-danger"
-                        : "btn-outline-danger"
-                    }`}
-                    onClick={() =>
-                      toggleVote(p.Post.id)
-                    }
-                  >
-                    {liked
-                      ? "❤️ Liked"
-                      : "🤍 Like"}
-                  </button>
-
-                  <button
-                      className={
-                        savedPosts.includes(p.Post.id)
-                          ? "btn btn-success"
-                          : "btn btn-outline-success"
-                      }
-                      disabled={savedPosts.includes(p.Post.id)}
-                      onClick={() => savePost(p.Post.id)}
-                    >
-                      {savedPosts.includes(p.Post.id)
-                        ? "✅ Saved Post"
-                        : "🔖 Save Post"}
-                    </button>
-
-                  <span className="badge bg-success">
-                    👍 {p.votes || 0}
-                  </span>
-
-                </div>
-              <hr />
-
-                <h6 style={{ color: "white" }}>
-                  💬 Comments
-                </h6>
-
-                <div className="mb-3">
-
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Write a comment..."
-                    value={commentText[p.Post.id] || ""}
-                    onChange={(e) =>
-                      setCommentText({
-                        ...commentText,
-                        [p.Post.id]: e.target.value,
-                      })
-                    }
-                  />
-
-                  <button
-                    className="btn btn-info mt-2"
-                    onClick={() => addComment(p.Post.id)}
-                  >
-                    Add Comment
-                  </button>
-
-                </div>
-
-                {comments[p.Post.id]?.map((c) => (
                   <div
-                    key={c.id}
-                    className="bg-dark text-light p-2 rounded mb-2"
+                    style={{
+                      fontSize: "13px",
+                      color: "#bbb",
+                    }}
                   >
-                    <strong>
-                      {c.owner?.email?.split("@")[0]}
-                    </strong>
+                    User #{c.user_id}
+                  </div>
 
-                    <br />
-
+                  <div
+                    style={{
+                      fontSize: "15px",
+                    }}
+                  >
                     {c.content}
                   </div>
-                ))}
 
-              <div className="d-flex gap-2 flex-wrap">
+                </div>
 
-                {p.Post.owner_id ===
-                currentUserId ? (
-                  <>
-                    <button
-                      className="btn btn-warning"
-                      onClick={() =>
-                        updatePost(p)
-                      }
-                    >
-                      ✏️ Edit
-                    </button>
+                {/* COMMENT MENU */}
+
+                {c.user_id ===
+                  currentUserId && (
+                  <div className="dropdown">
 
                     <button
-                      className="btn btn-danger"
-                      onClick={() =>
-                        deletePost(p)
-                      }
+                      className="btn btn-sm btn-secondary"
+                      data-bs-toggle="dropdown"
                     >
-                      🗑 Delete
+                      ⋮
                     </button>
-                  </>
-                ) : (
-                  <span className="badge bg-secondary">
-                    {/* Community Post */}
-                  </span>
+
+                    <ul className="dropdown-menu dropdown-menu-end">
+
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          onClick={() =>
+                            updateComment(
+                              c.id,
+                              c.content,
+                              p.Post.id
+                            )
+                          }
+                        >
+                          ✏️ Edit Comment
+                        </button>
+                      </li>
+
+                      <li>
+                        <button
+                          className="dropdown-item text-danger"
+                          onClick={() =>
+                            deleteComment(
+                              c.id,
+                              p.Post.id
+                            )
+                          }
+                        >
+                          🗑 Delete Comment
+                        </button>
+                      </li>
+
+                    </ul>
+
+                  </div>
                 )}
 
               </div>
+            )
+          )
+        ) : (
+          <div
+            className="text-light opacity-75"
+            style={{
+              fontSize: "14px",
+            }}
+          >
+            No comments yet...
+          </div>
+        )}
 
-            </div>
-          );
-        })}
+      </div>
+
+    </div>
+  );
+})}
 
         {filteredPosts.length === 0 && (
           <div className="post-glass-card text-center">
