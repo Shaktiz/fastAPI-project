@@ -9,6 +9,8 @@ import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import SavedPosts from "./pages/SavedPosts";
 import LikedPosts from "./pages/LikedPosts";
+import Users from "./pages/Community_Users";
+import MyPosts from "./pages/MyPosts";
 function App() {
   const [search, setSearch] = useState("");
 
@@ -37,6 +39,15 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/saved-posts"element={<SavedPosts />} />
         <Route path="/liked-posts"element={<LikedPosts />} />
+        <Route
+          path="/users"
+          element={<Users />}
+        />
+
+        <Route
+          path="/myposts"
+          element={<MyPosts />}
+        />
       </Routes>
     </BrowserRouter>
   );

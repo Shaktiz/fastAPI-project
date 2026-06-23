@@ -1,40 +1,202 @@
-
 body,
 #root {
-  min-height: 100vh;
-
-  background: linear-gradient(
-    135deg,
-    #4f46e5,
-    #7c3aed,
-    #2563eb
-  );
-
-  background-size: 300% 300%;
-  animation: gradientMove 12s ease infinite;
+min-height: 100vh;
+background: linear-gradient(
+135deg,
+#4f46e5,
+#7c3aed,
+#2563eb
+);
+background-size: 300% 300%;
+animation: gradientMove 12s ease infinite;
 }
+
+/* DARK MODE */
+
+body.dark-mode,
+body.dark-mode #root {
+background: linear-gradient(
+135deg,
+#0f172a,
+#1e1b4b,
+#312e81
+) !important;
+}
+
+/* NAVBAR */
+
 .navbar {
-  background: rgba(255,255,255,.12) !important;
-
-  backdrop-filter: blur(20px);
-
-  border-bottom: 1px solid rgba(255,255,255,.15);
+background: rgba(255,255,255,.12) !important;
+backdrop-filter: blur(20px);
+border-bottom: 1px solid rgba(255,255,255,.15);
 }
 
-body.dark-mode {
-  background: linear-gradient(
-    135deg,
-    #0f172a,
-    #1e1b4b,
-    #312e81
-  ) !important;
-}
+/* GLASS EFFECT */
+
 .social-card,
 .create-post-card,
 .post-card,
 .users-panel,
 .user-card,
+.welcome-glass-card,
+.post-glass-card {
+opacity: 1 !important;
+visibility: visible !important;
+}
+
+/* WELCOME CARD */
+
 .welcome-glass-card {
-  opacity: 1 !important;
-  visibility: visible !important;
+background: rgba(255,255,255,.12);
+backdrop-filter: blur(20px);
+border-radius: 25px;
+padding: 30px;
+border: 1px solid rgba(255,255,255,.2);
+color: white;
+}
+
+.profile-avatar-lg {
+width: 90px;
+height: 90px;
+border-radius: 50%;
+object-fit: cover;
+border: 3px solid rgba(255,255,255,.4);
+}
+
+.welcome-title {
+color: white;
+font-weight: 700;
+}
+
+.welcome-email {
+color: rgba(255,255,255,.85);
+}
+
+.welcome-bio {
+color: rgba(255,255,255,.7);
+}
+
+/* POSTS SECTION */
+
+.social-card {
+background: transparent;
+}
+
+.create-post-card {
+background: rgba(255,255,255,.12);
+backdrop-filter: blur(15px);
+border-radius: 20px;
+padding: 25px;
+border: 1px solid rgba(255,255,255,.2);
+}
+
+.post-glass-card {
+background: rgba(255,255,255,.12) !important;
+backdrop-filter: blur(15px);
+border-radius: 20px;
+padding: 20px;
+border: 1px solid rgba(255,255,255,.2);
+color: white !important;
+transition: all .3s ease;
+}
+
+.post-glass-card:hover {
+transform: translateY(-4px);
+box-shadow: 0 12px 30px rgba(0,0,0,.25);
+}
+
+.post-glass-card h4,
+.post-glass-card p,
+.post-glass-card strong,
+.post-glass-card small {
+color: white !important;
+}
+
+.profile-avatar {
+width: 60px;
+height: 60px;
+object-fit: cover;
+border-radius: 50%;
+border: 2px solid rgba(255,255,255,.3);
+}
+
+/* COMMENTS */
+
+.comments-section {
+background: rgba(0,0,0,.25) !important;
+border-radius: 15px;
+padding: 15px;
+}
+
+.comment-card {
+background: rgba(255,255,255,.08) !important;
+color: white !important;
+border-radius: 12px;
+}
+
+.comment-card div,
+.comment-card small {
+color: white !important;
+}
+
+/* FORM CONTROLS */
+
+.form-control {
+background: rgba(255,255,255,.15) !important;
+border: 1px solid rgba(255,255,255,.2);
+color: white !important;
+}
+
+.form-control::placeholder {
+color: rgba(255,255,255,.7);
+}
+
+.form-control:focus {
+background: rgba(255,255,255,.2) !important;
+color: white !important;
+box-shadow: none;
+}
+
+/* DARK MODE POSTS */
+
+body.dark-mode .welcome-glass-card,
+body.dark-mode .create-post-card,
+body.dark-mode .post-glass-card {
+background: rgba(17,24,39,.9) !important;
+border: 1px solid rgba(255,255,255,.08);
+}
+
+body.dark-mode .comments-section {
+background: rgba(10,10,20,.95) !important;
+}
+
+body.dark-mode .comment-card {
+background: rgba(31,41,55,.95) !important;
+}
+
+body.dark-mode .form-control {
+background: rgba(31,41,55,.95) !important;
+color: white !important;
+}
+
+body.dark-mode .post-glass-card h4,
+body.dark-mode .post-glass-card p,
+body.dark-mode .post-glass-card strong,
+body.dark-mode .post-glass-card small,
+body.dark-mode .comment-card {
+color: white !important;
+}
+
+/* ANIMATION */
+
+@keyframes gradientMove {
+0% {
+background-position: 0% 50%;
+}
+50% {
+background-position: 100% 50%;
+}
+100% {
+background-position: 0% 50%;
+}
 }

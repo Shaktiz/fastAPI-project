@@ -17,6 +17,7 @@ const token = localStorage.getItem("token");
 const currentUserId = Number(localStorage.getItem("user_id"));
 const [openPostMenu, setOpenPostMenu] = useState(null);
 const [openCommentMenu, setOpenCommentMenu] = useState(null);
+const [users, setUsers] = useState({});
 const API_URL = "https://fastapi-project-1-j38l.onrender.com";
 
 const getRelativeTime = (dateString) => {
@@ -410,6 +411,28 @@ const authConfig = useMemo(
               console.log(err);
             }
           };
+          const loadUsers = async () => {
+            try {
+              const res = await axios.get(
+                `${API_URL}/users`,
+                authConfig
+              );
+
+              const usersMap = {};
+
+              res.data.forEach((user) => {
+                usersMap[user.id] = user.email;
+              });
+
+              setUsers(usersMap);
+
+            } catch (err) {
+              console.log(err);
+            }
+          };
+          useEffect(() => {
+              loadUsers();
+            }, []);
       const filteredPosts = posts.filter((p) => {
       if (!search?.trim()) return true;
 
@@ -637,7 +660,7 @@ const authConfig = useMemo(
       {/* <div className="comments-section"> */}
         <div
           key={p.id}
-          className="bg-dark text-light p-3 rounded mb-2 position-relative"
+          className="comments-section p-3 rounded mb-2 position-relative"
         >
 
         <h6
@@ -689,7 +712,7 @@ const authConfig = useMemo(
             (c) => (
               <div
                 key={c.id}
-                className="comment-card bg-dark text-light p-3 rounded mb-2 d-flex justify-content-between align-items-start"
+                className="comment-card p-3 rounded mb-2 d-flex justify-content-between align-items-start"
               >
 
                 <div>
@@ -700,7 +723,7 @@ const authConfig = useMemo(
                       color: "#bbb",
                     }}
                   >
-                    User #{c.user_id}
+                    👤 {users[c.user_id]?.split("@")[0] || "Unknown User"}
                   </div>
 
                   <div
