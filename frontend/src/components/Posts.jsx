@@ -550,7 +550,7 @@ const authConfig = useMemo(
             </div>
 
             <small className="text-light opacity-75">
-              {getRelativeTime(
+             🕒 {getRelativeTime(
                 p.Post.created_at
               )}
             </small>

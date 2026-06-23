@@ -272,7 +272,7 @@ function MyPosts() {
                     </h4>
 
                     <small>
-                      {getRelativeTime(
+                      🕒{getRelativeTime(
                         p.Post.created_at
                       )}
                     </small>
