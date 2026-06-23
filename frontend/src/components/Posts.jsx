@@ -447,7 +447,15 @@ const authConfig = useMemo(
       });
 
       return ( 
-      <div className="social-card">
+      // <div className="social-card">
+      
+        <div className="d-flex justify-content-center">
+          <div
+            className="social-card"
+            style={{
+              width: "100%",
+              maxWidth: "950px",
+            }}>
 
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h2
@@ -814,6 +822,7 @@ const authConfig = useMemo(
         )}
 
       </div>
+    </div>
   );
 }
 
