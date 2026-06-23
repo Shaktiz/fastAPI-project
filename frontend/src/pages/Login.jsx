@@ -73,60 +73,71 @@ function Login() {
         <div className="circle circle3"></div>
 
         {/* <div className="auth-card"> */}
-        <div
+
+          <div
             className="auth-card"
             style={{ maxWidth: "460px" }}
           >
+            <div className="auth-logo">
+              🚀
+            </div>
 
-          <div className="text-center mb-4">
-            <h2>👋 Welcome Back</h2>
-            <p>Login to continue</p>
+            <div className="text-center mb-4">
+              <h2>Welcome👋</h2>
+
+              <p>
+                Connect with your community and
+                share your thoughts
+              </p>
+            </div>
+
+            <form onSubmit={handleLogin}>
+
+              <input
+                type="email"
+                className="form-control"
+                placeholder="📧 Enter Email"
+                value={email}
+                onChange={(e) =>
+                  setEmail(e.target.value)
+                }
+                required
+              />
+
+              <input
+                type="password"
+                className="form-control"
+                placeholder="🔒 Enter Password"
+                value={password}
+                onChange={(e) =>
+                  setPassword(e.target.value)
+                }
+                required
+              />
+
+              <button
+                type="submit"
+                className="btn btn-primary w-100 mt-2"
+                disabled={loading}
+              >
+                {loading
+                  ? "Signing In..."
+                  : "🚀 Login"}
+              </button>
+
+            </form>
+
+            <div className="auth-divider">
+              ───── OR ─────
+            </div>
+
+            <div className="text-center">
+              Don't have an account?
+              <Link to="/register">
+                {" "}Register Now
+              </Link>
+            </div>
           </div>
-
-          <form onSubmit={handleLogin}>
-
-            <input
-              type="email"
-              className="form-control"
-              placeholder="📧 Email Address"
-              value={email}
-              onChange={(e) =>
-                setEmail(e.target.value)
-              }
-              required
-            />
-
-            <input
-              type="password"
-              className="form-control"
-              placeholder="🔒 Password"
-              value={password}
-              onChange={(e) =>
-                setPassword(e.target.value)
-              }
-              required
-            />
-
-            <button
-              type="submit"
-              className="btn btn-primary w-100 mt-2"
-              disabled={loading}
-            >
-              {loading
-                ? "Logging In..."
-                : "🚀 Login"}
-            </button>
-
-          </form>
-
-          <div className="text-center mt-4">
-            Don't have an account?
-            <Link to="/register">
-              {" "}Register
-            </Link>
-          </div>
-
-        </div>
 
       </div>
     </>

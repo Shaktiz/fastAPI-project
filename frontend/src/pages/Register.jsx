@@ -72,80 +72,94 @@ function Register() {
         <div className="blob blob2"></div>
 
         {/* <div className="auth-card"> */}
-        <div
-          className="auth-card"
-          style={{ maxWidth: "460px" }}
-        >
+              
+          <div
+            className="auth-card"
+            style={{ maxWidth: "460px" }}
+          >
+            <div className="auth-logo">
+              ✨
+            </div>
 
-          <h2 className="text-center mb-4">
-            🎉 Create Account
-          </h2>
+            <div className="text-center mb-4">
+              <h2>Create Account</h2>
 
-          <form onSubmit={handleRegister}>
+              <p>
+                Join SocialConnect and start
+                sharing with your community
+              </p>
+            </div>
 
-            <input
-              type="email"
-              className="form-control mb-3"
-              placeholder="Email"
-              value={email}
-              onChange={(e) =>
-                setEmail(e.target.value)
-              }
-              required
-            />
+            <form onSubmit={handleRegister}>
 
-            <input
-              type="password"
-              className="form-control mb-3"
-              placeholder="Password"
-              value={password}
-              onChange={(e) =>
-                setPassword(e.target.value)
-              }
-              required
-            />
+              <input
+                type="email"
+                className="form-control"
+                placeholder="📧 Email Address"
+                value={email}
+                onChange={(e) =>
+                  setEmail(e.target.value)
+                }
+                required
+              />
 
-            <input
-              type="text"
-              className="form-control mb-3"
-              placeholder="Phone Number"
-              value={phoneNumber}
-              onChange={(e) =>
-                setPhoneNumber(e.target.value)
-              }
-              required
-            />
+              <input
+                type="password"
+                className="form-control"
+                placeholder="🔒 Password"
+                value={password}
+                onChange={(e) =>
+                  setPassword(e.target.value)
+                }
+                required
+              />
 
-            <input
-              type="text"
-              className="form-control mb-3"
-              placeholder="Address"
-              value={address}
-              onChange={(e) =>
-                setAddress(e.target.value)
-              }
-              required
-            />
+              <input
+                type="text"
+                className="form-control"
+                placeholder="📱 Phone Number"
+                value={phoneNumber}
+                onChange={(e) =>
+                  setPhoneNumber(e.target.value)
+                }
+                required
+              />
 
-            <button
-              className="btn btn-success w-100"
-              disabled={loading}
-            >
-              {loading
-                ? "Registering..."
-                : "Register"}
-            </button>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="🏠 Address"
+                value={address}
+                onChange={(e) =>
+                  setAddress(e.target.value)
+                }
+                required
+              />
 
-          </form>
+              <button
+                type="submit"
+                className="btn btn-primary w-100 mt-2"
+                disabled={loading}
+              >
+                {loading
+                  ? "Creating Account..."
+                  : "🎉 Register"}
+              </button>
 
-          <div className="text-center mt-3">
-            Already have an account?
-            <Link to="/">
-              {" "}Login
-            </Link>
+            </form>
+
+            <div className="auth-divider">
+              ───── OR ─────
+            </div>
+
+            <div className="text-center">
+              Already have an account?
+              <Link to="/">
+                {" "}Login
+              </Link>
+            </div>
           </div>
 
-        </div>
 
       </div>
     </>
