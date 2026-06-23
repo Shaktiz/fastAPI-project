@@ -70,8 +70,6 @@ function Register() {
 
         <div className="blob blob1"></div>
         <div className="blob blob2"></div>
-
-        {/* <div className="auth-card"> */}
               
           <div
             className="auth-card"

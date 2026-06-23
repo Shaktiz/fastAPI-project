@@ -72,7 +72,6 @@ function Login() {
         <div className="circle circle2"></div>
         <div className="circle circle3"></div>
 
-        {/* <div className="auth-card"> */}
 
           <div
             className="auth-card"
