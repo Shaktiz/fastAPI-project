@@ -64,7 +64,7 @@ function Navbar({
             navigate("/dashboard")
           }
         >
-          🚀 Social Connect
+           Social Connect
         </div>
 
         {/* RIGHT SIDE */}

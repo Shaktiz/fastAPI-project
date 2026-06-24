@@ -19,33 +19,51 @@ function AuthNavbar() {
 
         {/* LOGO */}
 
-        <div
-          className="d-flex align-items-center"
-          style={{
-            cursor: "pointer",
-          }}
-        >
-          <span
-            style={{
-              fontSize: "2rem",
-            }}
-          >
-            🚀
-          </span>
+          <div
+            className="d-flex align-items-center auth-navbar-logo"
+            style={{ cursor: "pointer" }}
 
-          <span
-            className="ms-2 fw-bold"
-            style={{
-              fontSize: "1.8rem",
-              color: "white",
-              letterSpacing: "1px",
-              textShadow:
-                "0 0 20px rgba(255,255,255,.3)",
-            }}
           >
-            SocialConnect
-          </span>
-        </div>
+            <img
+              src="/images/social-connect-logo2.png"
+              alt="Social Connect Logo"
+              style={{
+                width: "55px",
+                height: "55px",
+                objectFit: "contain",
+                borderRadius: "12px",
+                background: "rgba(255,255,255,0.1)",
+                padding: "4px",
+                boxShadow:
+                  "0 0 20px rgba(255,255,255,.15)",
+              }}
+            />
+
+            <div className="ms-3">
+              <div
+                style={{
+                  fontSize: "1.7rem",
+                  fontWeight: "800",
+                  color: "white",
+                  letterSpacing: "1px",
+                  lineHeight: "1.1",
+                  textShadow:
+                    "0 0 20px rgba(255,255,255,.25)",
+                }}
+              >
+                Social Connect
+              </div>
+
+              <small
+                style={{
+                  color: "rgba(255,255,255,.75)",
+                  fontSize: "0.8rem",
+                }}
+              >
+                Your social circle, evolved.
+              </small>
+            </div>
+          </div>
 
         {/* CENTER TEXT */}
 
@@ -57,7 +75,8 @@ function AuthNavbar() {
             fontSize: "15px",
           }}
         >
-          🌍 Connect • Share • Discover
+          {/* 🌍 Connect • Share • Discover */}
+          🌍 Socializing, simplified.
         </div>
 
         {/* ACTION BUTTONS */}

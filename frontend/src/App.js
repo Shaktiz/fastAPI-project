@@ -11,6 +11,12 @@ import SavedPosts from "./pages/SavedPosts";
 import LikedPosts from "./pages/LikedPosts";
 import Users from "./pages/Community_Users";
 import MyPosts from "./pages/MyPosts";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
+import Social from "./pages/Social";
+
 function App() {
   const [search, setSearch] = useState("");
 
@@ -39,6 +45,12 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/saved-posts"element={<SavedPosts />} />
         <Route path="/liked-posts"element={<LikedPosts />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/social" element={<Social />} />
+        
         <Route
           path="/users"
           element={<Users />}
