@@ -81,7 +81,7 @@ function AuthNavbar() {
 
         {/* ACTION BUTTONS */}
 
-        <div className="d-flex gap-2">
+        {/* <div className="d-flex gap-2">
 
           <Link
             to="/"
@@ -119,7 +119,7 @@ function AuthNavbar() {
             ✨ Register
           </Link>
 
-        </div>
+        </div> */}
 
       </div>
     </nav>

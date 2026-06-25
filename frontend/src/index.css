@@ -1339,3 +1339,114 @@ body.dark-mode .users-glass-card {
   );
 
 }
+.post-glass-card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px;
+  padding: 22px;
+  color: white;
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.post-user-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  flex: 1;
+}
+
+.profile-avatar {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+.post-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: white;
+}
+
+.post-owner {
+  font-size: 14px;
+  margin-top: 4px;
+  color: rgba(255,255,255,0.9);
+}
+
+.post-time {
+  font-size: 13px;
+  color: rgba(255,255,255,0.65);
+}
+
+.post-content {
+  margin-top: 18px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.95);
+  word-break: break-word;
+}
+
+.post-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.comments-section {
+  margin-top: 20px;
+  background: rgba(0,0,0,0.15);
+  padding: 18px;
+  border-radius: 15px;
+}
+
+.comment-input-box {
+  margin-bottom: 18px;
+}
+
+.comment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.comment-card {
+  background: rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 12px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.comment-user {
+  font-size: 13px;
+  color: #d9d9d9;
+  font-weight: 600;
+}
+
+.comment-text {
+  margin-top: 4px;
+  color: white;
+}
+
+.no-comments {
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  padding: 10px;
+}

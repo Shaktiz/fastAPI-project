@@ -18,6 +18,7 @@ const currentUserId = Number(localStorage.getItem("user_id"));
 const [openPostMenu, setOpenPostMenu] = useState(null);
 const [openCommentMenu, setOpenCommentMenu] = useState(null);
 const [users, setUsers] = useState({});
+const [showComments, setShowComments] = useState({});
 const API_URL = "https://fastapi-project-1-j38l.onrender.com";
 
 const getRelativeTime = (dateString) => {
@@ -447,7 +448,6 @@ const authConfig = useMemo(
       });
 
       return ( 
-      // <div className="social-card">
       
         <div className="d-flex justify-content-center">
           <div
@@ -516,293 +516,545 @@ const authConfig = useMemo(
   const saved = savedPosts.includes(p.Post.id);
 
   return (
-    <div
-      key={p.Post.id}
-      className="post-glass-card mb-4 position-relative"
-    >
-      {/* HEADER */}
+    // <div
+    //   key={p.Post.id}
+    //   className="post-glass-card mb-4 position-relative"
+    // >
+    //   {/* HEADER */}
 
-      <div className="d-flex justify-content-between align-items-start">
+    //   <div className="d-flex justify-content-between align-items-start">
 
-        <div className="d-flex align-items-center">
+    //     <div className="d-flex align-items-center">
 
-          <img
-            src={
-              p.profile_image
-                ? `${API_URL}${p.profile_image?.startsWith("/") ? "" : "/"}${p.profile_image}`
-                : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-            }
-            alt="Profile"
-            className="profile-avatar me-3"
-          />
+    //       <img
+    //         src={
+    //           p.profile_image
+    //             ? `${API_URL}${p.profile_image?.startsWith("/") ? "" : "/"}${p.profile_image}`
+    //             : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+    //         }
+    //         alt="Profile"
+    //         className="profile-avatar me-3"
+    //       />
 
-          <div>
+    //       <div>
 
-            <h4
-              className="fw-bold mb-1"
-              style={{ color: "white" }}
-            >
-              {p.Post.title}
-            </h4>
+    //         <h4
+    //           className="fw-bold mb-1"
+    //           style={{ color: "white" }}
+    //         >
+    //           {p.Post.title}
+    //         </h4>
 
-            <div
-              style={{
-                color: "#fff",
-                fontSize: "14px",
-              }}
-            >
-              <strong>
-                Posted by : {p.Post.owner?.email?.split("@")[0] ||
-                  "Unknown User"}
-              </strong>
-            </div>
+    //         <div
+    //           style={{
+    //             color: "#fff",
+    //             fontSize: "14px",
+    //           }}
+    //         >
+    //           <strong>
+    //             Posted by : {p.Post.owner?.email?.split("@")[0] ||
+    //               "Unknown User"}
+    //           </strong>
+    //         </div>
 
-            <small className="text-light opacity-75">
-             🕒 {getRelativeTime(
-                p.Post.created_at
-              )}
-            </small>
+    //         <small className="text-light opacity-75">
+    //          🕒 {getRelativeTime(
+    //             p.Post.created_at
+    //           )}
+    //         </small>
 
-          </div>
+    //       </div>
 
+    //     </div>
+
+    //     {/* POST OWNER MENU */}
+
+    //     {p.Post.owner_id === currentUserId && (
+    //       <div className="dropdown">
+
+    //         <button
+    //           className="btn btn-sm btn-dark"
+    //           data-bs-toggle="dropdown"
+    //         >
+    //           ⋮
+    //         </button>
+
+    //         <ul className="dropdown-menu dropdown-menu-end">
+
+    //           <li>
+    //             <button
+    //               className="dropdown-item"
+    //               onClick={() =>
+    //                 updatePost(p)
+    //               }
+    //             >
+    //               ✏️ Edit Post
+    //             </button>
+    //           </li>
+
+    //           <li>
+    //             <button
+    //               className="dropdown-item text-danger"
+    //               onClick={() =>
+    //                 deletePost(p)
+    //               }
+    //             >
+    //               🗑 Delete Post
+    //             </button>
+    //           </li>
+
+    //         </ul>
+
+    //       </div>
+    //     )}
+
+    //   </div>
+
+    //   <hr />
+
+    //   {/* CONTENT */}
+
+    //   <p
+    //     style={{
+    //       color: "rgba(255,255,255,.95)",
+    //       lineHeight: "1.8",
+    //     }}
+    //   >
+    //     {p.Post.content}
+    //   </p>
+
+    //   {/* ACTIONS */}
+
+    //   <div className="d-flex flex-wrap align-items-center gap-2 mb-4">
+
+    //     <button
+    //       className={`btn ${
+    //         liked
+    //           ? "btn-danger"
+    //           : "btn-outline-danger"
+    //       }`}
+    //       onClick={() =>
+    //         toggleVote(p.Post.id)
+    //       }
+    //     >
+    //       {liked
+    //         ? "❤️ Liked"
+    //         : "🤍 Like"}
+    //     </button>
+
+    //     <button
+    //       className={`btn ${
+    //         saved
+    //           ? "btn-success"
+    //           : "btn-outline-success"
+    //       }`}
+    //       onClick={() =>
+    //         toggleSavePost(p.Post.id)
+    //       }
+    //     >
+    //       {saved
+    //         ? "✅ Saved"
+    //         : "🔖 Save"}
+    //     </button>
+
+    //     <span className="badge bg-success">
+    //       👍 {p.votes || 0}
+    //     </span>
+
+    //   </div>
+
+    //   {/* COMMENTS SECTION */}
+
+    //   {/* <div className="comments-section"> */}
+    //     <div
+    //       key={p.id}
+    //       className="comments-section p-3 rounded mb-2 position-relative"
+    //     >
+
+    //     <h6
+    //       className="mb-3"
+    //       style={{
+    //         color: "white",
+    //         fontWeight: "600",
+    //       }}
+    //     >
+    //       💬 Comments
+    //     </h6>
+
+    //     {/* ADD COMMENT */}
+
+    //     <div className="mb-4">
+
+    //       <input
+    //         type="text"
+    //         className="form-control"
+    //         placeholder="Write a comment..."
+    //         value={
+    //           commentText[p.Post.id] || ""
+    //         }
+    //         onChange={(e) =>
+    //           setCommentText({
+    //             ...commentText,
+    //             [p.Post.id]:
+    //               e.target.value,
+    //           })
+    //         }
+    //       />
+
+    //       <button
+    //         className="btn btn-info mt-2"
+    //         onClick={() =>
+    //           addComment(p.Post.id)
+    //         }
+    //       >
+    //         Add Comment
+    //       </button>
+
+    //     </div>
+
+    //     {/* COMMENTS LIST */}
+
+    //     {comments[p.Post.id]?.length >
+    //     0 ? (
+    //       comments[p.Post.id].map(
+    //         (c) => (
+    //           <div
+    //             key={c.id}
+    //             className="comment-card p-3 rounded mb-2 d-flex justify-content-between align-items-start"
+    //           >
+
+    //             <div>
+
+    //               <div
+    //                 style={{
+    //                   fontSize: "13px",
+    //                   color: "#bbb",
+    //                 }}
+    //               >
+    //                 👤 {users[c.user_id]?.split("@")[0] || "Unknown User"}
+    //               </div>
+
+    //               <div
+    //                 style={{
+    //                   fontSize: "15px",
+    //                 }}
+    //               >
+    //                 {c.content}
+    //               </div>
+
+    //             </div>
+
+    //             {/* COMMENT MENU */}
+
+    //             {c.user_id ===
+    //               currentUserId && (
+    //               <div className="dropdown">
+
+    //                 <button
+    //                   className="btn btn-sm btn-secondary"
+    //                   data-bs-toggle="dropdown"
+    //                 >
+    //                   ⋮
+    //                 </button>
+
+    //                 <ul className="dropdown-menu dropdown-menu-end">
+
+    //                   <li>
+    //                     <button
+    //                       className="dropdown-item"
+    //                       onClick={() =>
+    //                         updateComment(
+    //                           c.id,
+    //                           c.content,
+    //                           p.Post.id
+    //                         )
+    //                       }
+    //                     >
+    //                       ✏️ Edit Comment
+    //                     </button>
+    //                   </li>
+
+    //                   <li>
+    //                     <button
+    //                       className="dropdown-item text-danger"
+    //                       onClick={() =>
+    //                         deleteComment(
+    //                           c.id,
+    //                           p.Post.id
+    //                         )
+    //                       }
+    //                     >
+    //                       🗑 Delete Comment
+    //                     </button>
+    //                   </li>
+
+    //                 </ul>
+
+    //               </div>
+    //             )}
+
+    //           </div>
+    //         )
+    //       )
+    //     ) : (
+    //       <div
+    //         className="text-light opacity-75"
+    //         style={{
+    //           fontSize: "14px",
+    //         }}
+    //       >
+    //         No comments yet...
+    //       </div>
+    //     )}
+
+    //   </div>
+
+    // </div>
+  <div
+  key={p.Post.id}
+  className="post-glass-card mb-4"
+>
+  {/* HEADER */}
+
+  <div className="post-header">
+
+    <div className="post-user-info">
+
+      <img
+        src={
+          p.profile_image
+            ? `${API_URL}${p.profile_image?.startsWith("/") ? "" : "/"}${p.profile_image}`
+            : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+        }
+        alt="Profile"
+        className="profile-avatar"
+      />
+
+      <div className="post-meta">
+
+        <h4 className="post-title">
+          {p.Post.title}
+        </h4>
+
+        <div className="post-owner">
+          👤 Posted by{" "}
+          <strong>
+            {p.Post.owner?.email?.split("@")[0] ||
+              "Unknown User"}
+          </strong>
         </div>
 
-        {/* POST OWNER MENU */}
+        <div className="post-time">
+          🕒 {getRelativeTime(p.Post.created_at)}
+        </div>
 
-        {p.Post.owner_id === currentUserId && (
-          <div className="dropdown">
+      </div>
 
+    </div>
+
+    {p.Post.owner_id === currentUserId && (
+      <div className="dropdown">
+
+        <button
+          className="btn btn-sm btn-dark"
+          data-bs-toggle="dropdown"
+        >
+          ⋮
+        </button>
+
+        <ul className="dropdown-menu dropdown-menu-end">
+
+          <li>
             <button
-              className="btn btn-sm btn-dark"
-              data-bs-toggle="dropdown"
+              className="dropdown-item"
+              onClick={() => updatePost(p)}
             >
-              ⋮
+              ✏️ Edit Post
             </button>
+          </li>
 
-            <ul className="dropdown-menu dropdown-menu-end">
+          <li>
+            <button
+              className="dropdown-item text-danger"
+              onClick={() => deletePost(p)}
+            >
+              🗑 Delete Post
+            </button>
+          </li>
 
-              <li>
-                <button
-                  className="dropdown-item"
-                  onClick={() =>
-                    updatePost(p)
-                  }
-                >
-                  ✏️ Edit Post
-                </button>
-              </li>
+        </ul>
 
-              <li>
-                <button
-                  className="dropdown-item text-danger"
-                  onClick={() =>
-                    deletePost(p)
-                  }
-                >
-                  🗑 Delete Post
-                </button>
-              </li>
+      </div>
+    )}
 
-            </ul>
+  </div>
 
-          </div>
-        )}
+  <div className="post-content">
+    {p.Post.content}
+  </div>
+
+  {/* ACTION BUTTONS */}
+
+  <div className="post-actions">
+
+    <button
+      className={`btn ${
+        liked
+          ? "btn-danger"
+          : "btn-outline-danger"
+      }`}
+      onClick={() =>
+        toggleVote(p.Post.id)
+      }
+    >
+      {liked ? "❤️ Liked" : "🤍 Like"}
+    </button>
+
+    <button
+      className={`btn ${
+        saved
+          ? "btn-success"
+          : "btn-outline-success"
+      }`}
+      onClick={() =>
+        toggleSavePost(p.Post.id)
+      }
+    >
+      {saved ? "✅ Saved" : "🔖 Save"}
+    </button>
+
+    <span className="badge bg-success">
+      👍 {p.votes || 0}
+    </span>
+
+    <button
+      className="btn btn-outline-light btn-sm"
+      onClick={() =>
+        setShowComments({
+          ...showComments,
+          [p.Post.id]:
+            !showComments[p.Post.id],
+        })
+      }
+    >
+      💬 Comments (
+      {comments[p.Post.id]?.length || 0}
+      )
+    </button>
+
+  </div>
+
+  {/* COMMENTS */}
+
+  {showComments[p.Post.id] && (
+    <div className="comments-section">
+
+      <div className="comment-input-box">
+
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Write a comment..."
+          value={
+            commentText[p.Post.id] || ""
+          }
+          onChange={(e) =>
+            setCommentText({
+              ...commentText,
+              [p.Post.id]:
+                e.target.value,
+            })
+          }
+        />
+
+        <button
+          className="btn btn-info mt-2"
+          onClick={() =>
+            addComment(p.Post.id)
+          }
+        >
+          Add Comment
+        </button>
 
       </div>
 
-      <hr />
-
-      {/* CONTENT */}
-
-      <p
-        style={{
-          color: "rgba(255,255,255,.95)",
-          lineHeight: "1.8",
-        }}
-      >
-        {p.Post.content}
-      </p>
-
-      {/* ACTIONS */}
-
-      <div className="d-flex flex-wrap align-items-center gap-2 mb-4">
-
-        <button
-          className={`btn ${
-            liked
-              ? "btn-danger"
-              : "btn-outline-danger"
-          }`}
-          onClick={() =>
-            toggleVote(p.Post.id)
-          }
-        >
-          {liked
-            ? "❤️ Liked"
-            : "🤍 Like"}
-        </button>
-
-        <button
-          className={`btn ${
-            saved
-              ? "btn-success"
-              : "btn-outline-success"
-          }`}
-          onClick={() =>
-            toggleSavePost(p.Post.id)
-          }
-        >
-          {saved
-            ? "✅ Saved"
-            : "🔖 Save"}
-        </button>
-
-        <span className="badge bg-success">
-          👍 {p.votes || 0}
-        </span>
-
-      </div>
-
-      {/* COMMENTS SECTION */}
-
-      {/* <div className="comments-section"> */}
-        <div
-          key={p.id}
-          className="comments-section p-3 rounded mb-2 position-relative"
-        >
-
-        <h6
-          className="mb-3"
-          style={{
-            color: "white",
-            fontWeight: "600",
-          }}
-        >
-          💬 Comments
-        </h6>
-
-        {/* ADD COMMENT */}
-
-        <div className="mb-4">
-
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Write a comment..."
-            value={
-              commentText[p.Post.id] || ""
-            }
-            onChange={(e) =>
-              setCommentText({
-                ...commentText,
-                [p.Post.id]:
-                  e.target.value,
-              })
-            }
-          />
-
-          <button
-            className="btn btn-info mt-2"
-            onClick={() =>
-              addComment(p.Post.id)
-            }
-          >
-            Add Comment
-          </button>
-
-        </div>
-
-        {/* COMMENTS LIST */}
+      <div className="comment-list">
 
         {comments[p.Post.id]?.length >
         0 ? (
-          comments[p.Post.id].map(
-            (c) => (
-              <div
-                key={c.id}
-                className="comment-card p-3 rounded mb-2 d-flex justify-content-between align-items-start"
-              >
+          comments[p.Post.id].map((c) => (
+            <div
+              key={c.id}
+              className="comment-card"
+            >
 
-                <div>
+              <div className="comment-content">
 
-                  <div
-                    style={{
-                      fontSize: "13px",
-                      color: "#bbb",
-                    }}
-                  >
-                    👤 {users[c.user_id]?.split("@")[0] || "Unknown User"}
-                  </div>
-
-                  <div
-                    style={{
-                      fontSize: "15px",
-                    }}
-                  >
-                    {c.content}
-                  </div>
-
+                <div className="comment-user">
+                  👤{" "}
+                  {users[
+                    c.user_id
+                  ]?.split("@")[0] ||
+                    "Unknown User"}
                 </div>
 
-                {/* COMMENT MENU */}
-
-                {c.user_id ===
-                  currentUserId && (
-                  <div className="dropdown">
-
-                    <button
-                      className="btn btn-sm btn-secondary"
-                      data-bs-toggle="dropdown"
-                    >
-                      ⋮
-                    </button>
-
-                    <ul className="dropdown-menu dropdown-menu-end">
-
-                      <li>
-                        <button
-                          className="dropdown-item"
-                          onClick={() =>
-                            updateComment(
-                              c.id,
-                              c.content,
-                              p.Post.id
-                            )
-                          }
-                        >
-                          ✏️ Edit Comment
-                        </button>
-                      </li>
-
-                      <li>
-                        <button
-                          className="dropdown-item text-danger"
-                          onClick={() =>
-                            deleteComment(
-                              c.id,
-                              p.Post.id
-                            )
-                          }
-                        >
-                          🗑 Delete Comment
-                        </button>
-                      </li>
-
-                    </ul>
-
-                  </div>
-                )}
+                <div className="comment-text">
+                  {c.content}
+                </div>
 
               </div>
-            )
-          )
+
+              {c.user_id ===
+                currentUserId && (
+                <div className="dropdown">
+
+                  <button
+                    className="btn btn-sm btn-secondary"
+                    data-bs-toggle="dropdown"
+                  >
+                    ⋮
+                  </button>
+
+                  <ul className="dropdown-menu dropdown-menu-end">
+
+                    <li>
+                      <button
+                        className="dropdown-item"
+                        onClick={() =>
+                          updateComment(
+                            c.id,
+                            c.content,
+                            p.Post.id
+                          )
+                        }
+                      >
+                        ✏️ Edit Comment
+                      </button>
+                    </li>
+
+                    <li>
+                      <button
+                        className="dropdown-item text-danger"
+                        onClick={() =>
+                          deleteComment(
+                            c.id,
+                            p.Post.id
+                          )
+                        }
+                      >
+                        🗑 Delete Comment
+                      </button>
+                    </li>
+
+                  </ul>
+
+                </div>
+              )}
+
+            </div>
+          ))
         ) : (
-          <div
-            className="text-light opacity-75"
-            style={{
-              fontSize: "14px",
-            }}
-          >
+          <div className="no-comments">
             No comments yet...
           </div>
         )}
@@ -810,6 +1062,11 @@ const authConfig = useMemo(
       </div>
 
     </div>
+  )}
+
+</div>
+
+
   );
 })}
 
